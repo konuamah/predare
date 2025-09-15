@@ -88,15 +88,15 @@ const Navbar = () => {
       >
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-[120px]">
-            {/* Logo */}
-            <Link href="#home" onClick={(e) => scrollToSection(e, "home")}>
-              <div className={`w-36 h-16 relative ${LOGO_FONT_SIZE}`}>
+            {/* Logo - Moved closer to center */}
+            <Link href="#home" onClick={(e) => scrollToSection(e, "home")} className="lg:mr-8">
+              <div className={`w-32 h-14 relative ${LOGO_FONT_SIZE}`}>
                 <Image src={navConfig.logo.src} alt={navConfig.logo.alt} fill className="object-contain" />
               </div>
             </Link>
 
-            {/* Desktop Menu */}
-            <div className="hidden lg:flex items-center">
+            {/* Desktop Menu - Centered with logo */}
+            <div className="hidden lg:flex items-center justify-center flex-1">
               <div className="flex items-center gap-8">
                 {navConfig.links.map((link) => (
                   <a
@@ -117,6 +117,9 @@ const Navbar = () => {
                 ))}
               </div>
             </div>
+
+            {/* Spacer for mobile menu toggle alignment */}
+            <div className="lg:hidden w-9"></div>
 
             {/* Mobile Menu Toggle */}
             <button
