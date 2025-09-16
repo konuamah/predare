@@ -1,6 +1,26 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
+// ----------------------
+// Config: Fonts & Colors
+// ----------------------
+const FONT_STYLES = {
+  heading:
+    "font-sans font-bold text-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-[47px] leading-tight sm:leading-normal lg:leading-[71px]",
+  serviceTitle:
+    "text-black font-medium text-lg sm:text-xl md:text-2xl lg:text-3xl",
+  serviceDescription:
+    "text-black text-base sm:text-lg md:text-xl leading-relaxed",
+};
+
+const COLORS = {
+  borderGray: "border-gray-200",
+  accent: "text-orange-500", // 🔸 orange brand accent
+};
+
+// ----------------------
+// Component
+// ----------------------
 const ServicesSection = () => {
   const services = [
     {
@@ -12,7 +32,8 @@ const ServicesSection = () => {
     },
     {
       title: "Pay-Per-Click (PPC) Advertising",
-      description: "Create and manage effective PPC campaigns to maximize ROI.",
+      description:
+        "Create and manage effective PPC campaigns to maximize ROI.",
       imageUrl:
         "/advert.png",
     },
@@ -47,44 +68,72 @@ const ServicesSection = () => {
   ];
 
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [expandedIndex, setExpandedIndex] = useState(null);
+  const [isClient, setIsClient] = useState(false);
+
+  // Ensure we're on the client side before using window
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const handleServiceClick = (index) => {
+    if (isClient && window.innerWidth < 1024) {
+      // Mobile and tablet behavior
+      setExpandedIndex(expandedIndex === index ? null : index);
+    }
+  };
+
+  const isExpanded = (index) => {
+    if (!isClient) return false; // Default to collapsed during SSR
+
+    if (window.innerWidth >= 1024) {
+      return hoveredIndex === index;
+    }
+    return expandedIndex === index;
+  };
 
   return (
-    <section id="services" className="relative py-16 lg:py-24">
-      <div className="relative container mx-auto max-w-7xl px-4">
+    <section id="services" className="relative py-12 mt-20 sm:py-16 lg:py-24">
+      <div className="relative container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Main heading */}
-        <div className="mb-12 lg:mb-16">
-          <h2 className="text-black text-3xl md:text-4xl lg:text-5xl xl:text-[47px] font-sans leading-tight lg:leading-[71px]">
+        <div className="mb-8 sm:mb-12 lg:mb-16">
+          <h2 className={`${FONT_STYLES.heading}`}>
             Full Support for Your Digital Marketing Needs
           </h2>
         </div>
 
         {/* Services vertical stack */}
-        <div className="space-y-4">
+        <div className="space-y-2 sm:space-y-4">
           {services.map((service, index) => (
             <div
               key={index}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
-              className="cursor-pointer border-b border-gray-200 py-8 last:border-b-0"
+              onClick={() => handleServiceClick(index)}
+              className={`cursor-pointer border-b py-6 sm:py-8 last:border-b-0 ${COLORS.borderGray} transition-all duration-300 hover:bg-gray-50/50`}
             >
               <div className="flex items-center justify-between">
-                <div className="min-w-0">
-                  <p className="text-black text-2xl lg:text-3xl font-medium">
+                <div className="min-w-0 flex-1 pr-4">
+                  <p
+                    className={`${FONT_STYLES.serviceTitle} transition-colors duration-300 ${
+                      isExpanded(index) ? "text-orange-500" : "text-black"
+                    }`}
+                  >
                     {service.title}
                   </p>
                 </div>
                 <div
-                  className={`transition-transform duration-300 ${
-                    hoveredIndex === index ? "rotate-45" : ""
+                  className={`flex-shrink-0 transition-transform duration-300 ${
+                    isExpanded(index) ? "rotate-45" : ""
                   }`}
                 >
                   <svg
-                    width="24"
-                    height="24"
+                    width="20"
+                    height="20"
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="text-green-700"
+                    className={`${COLORS.accent} sm:w-6 sm:h-6`}
                   >
                     <path
                       d="M12 5V19M5 12H19"
@@ -99,20 +148,21 @@ const ServicesSection = () => {
 
               <div
                 className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                  hoveredIndex === index ? "max-h-screen mt-6" : "max-h-0"
+                  isExpanded(index) ? "max-h-screen mt-4 sm:mt-6" : "max-h-0"
                 }`}
               >
-                <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-12 pt-4">
-                  <div className="lg:w-1/2">
-                    <p className="text-black text-base leading-relaxed">
+                <div className="flex flex-col lg:flex-row items-start gap-6 sm:gap-8 lg:gap-12 pt-4">
+                  <div className="w-full lg:w-1/2 order-2 lg:order-1">
+                    <p className={FONT_STYLES.serviceDescription}>
                       {service.description}
                     </p>
                   </div>
-                  <div className="lg:w-1/2 w-full">
+                  <div className="w-full lg:w-1/2 order-1 lg:order-2">
                     <img
                       src={service.imageUrl}
                       alt={`${service.title} visual representation`}
-                      className="w-full h-auto object-cover rounded-lg shadow-md"
+                      className="w-full h-48 sm:h-56 md:h-64 lg:h-auto object-cover rounded-lg shadow-md"
+                      loading="lazy"
                     />
                   </div>
                 </div>

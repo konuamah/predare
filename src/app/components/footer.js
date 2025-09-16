@@ -3,7 +3,7 @@ import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-50 py-12">
+    <footer className="py-12">
       <div className="max-w-7xl mx-auto px-5 flex flex-col lg:flex-row justify-between items-center">
         
         {/* Quick Navigation Links */}

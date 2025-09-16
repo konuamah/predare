@@ -12,18 +12,14 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-      <div className="pt-32 pb-12 px-4">
-        <HeroSlider />
-      </div>
+
+      {/* Hero goes here */}
+      <HeroSlider />
 
       <CompanyIntro />
-
       <ServicesSection />
-
       <BenefitsSection />
-
       <ContactSection />
-
       <Footer />
     </div>
   );

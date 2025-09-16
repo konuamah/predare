@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const HeroCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -8,15 +7,15 @@ const HeroCarousel = () => {
   const slides = [
     {
       id: 1,
-      image: "/maize.png",
-      svg: "/grow.svg", // Add your SVG path here
+      image: "/orange-1.png",
+      svg: "/grow.svg",
       headline: "Grow Your Business Online",
       subtext:
         "Reach your audience. Elevate your presence. With intelligent digital strategy.",
     },
     {
       id: 2,
-      image: "/2nd.png",
+      image: "/orange-2.png",
       svg: "/boost.svg",
       headline: "Drive Traffic. Maximize Results.",
       subtext:
@@ -24,7 +23,7 @@ const HeroCarousel = () => {
     },
     {
       id: 3,
-      image: "/3rd.png",
+      image: "/orange-3.png",
       svg: "/connect.svg",
       headline: "Connect Where It Matters",
       subtext:
@@ -35,7 +34,7 @@ const HeroCarousel = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 8000);
+    }, 4000);
     return () => clearInterval(interval);
   }, [slides.length]);
 
@@ -45,8 +44,11 @@ const HeroCarousel = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-6">
-      <div className="relative">
+    <section
+      id="home"
+      className="relative w-full h-[700px] sm:h-[600px] md:min-h-screen flex items-center justify-center overflow-hidden"
+    >
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
         {/* Carousel */}
         <div className="relative h-[400px] sm:h-[560px] overflow-hidden rounded-[32px] shadow-xl">
           <div
@@ -59,8 +61,8 @@ const HeroCarousel = () => {
             {slides.map((slide) => (
               <div key={slide.id} className="flex-1 relative flex">
                 {/* Background overlay */}
-                <div className="absolute inset-0 bg-black/80 z-10"></div>
-                {/* Background image */}
+                <div className="absolute inset-0 bg-black/30 z-10"></div>
+                {/* Slide Background */}
                 <img
                   src={slide.image}
                   alt={slide.headline}
@@ -90,39 +92,23 @@ const HeroCarousel = () => {
           </div>
         </div>
 
-        {/* Navigation Arrows */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 hover:bg-white/30 text-white flex items-center justify-center transition-all duration-300 hover:scale-110 z-30 backdrop-blur-md rounded-full"
-          aria-label="Previous slide"
-        >
-          <ChevronLeft size={24} strokeWidth={1.5} />
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 hover:bg-white/30 text-white flex items-center justify-center transition-all duration-300 hover:scale-110 z-30 backdrop-blur-md  rounded-full"
-          aria-label="Next slide"
-        >
-          <ChevronRight size={24} strokeWidth={1.5} />
-        </button>
+        {/* Dot Indicators */}
+        <div className="flex justify-center gap-3 mt-10">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentSlide
+                  ? "bg-orange-500 scale-125 shadow-lg"
+                  : "bg-orange-300/40 hover:bg-orange-400/60"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
       </div>
-
-      {/* Dot Indicators */}
-      <div className="flex justify-center gap-3 mt-10">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-              index === currentSlide
-                ? "bg-black scale-110"
-                : "bg-black/40 hover:bg-black/60"
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
-    </div>
+    </section>
   );
 };
 

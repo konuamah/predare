@@ -1,12 +1,24 @@
-import React from 'react';
-import { CheckCircle, Users, DollarSign, Award } from 'lucide-react';
+import React from "react";
+import { CheckCircle, Users, DollarSign, Award } from "lucide-react";
+import { FONT_STYLES, COLORS, UI } from "../styles/config";
 
-// Reusable FeatureCard component
+// Reusable FeatureCard
 const FeatureCard = ({ Icon, title, description }) => (
-  <div className="flex flex-col items-center lg:items-start text-center lg:text-left p-4">
-    <Icon className="w-12 h-12 text-gray-900 mb-6" />
-    <h3 className="text-2xl font-semibold text-gray-900 mb-4 leading-tight">{title}</h3>
-    <p className="text-base text-gray-600 leading-relaxed">{description}</p>
+  <div className={UI.featureCard}>
+    {/* Icon */}
+    <div className="mb-6">
+      <Icon className={`w-12 h-12 text-orange-500`} /> {/* 🔸 Orange accent */}
+    </div>
+
+    {/* Title */}
+    <h3
+      className={`${FONT_STYLES.subheading} mb-4 text-black transition-colors duration-300 hover:text-orange-500`}
+    >
+      {title}
+    </h3>
+
+    {/* Description */}
+    <p className={FONT_STYLES.body}>{description}</p>
   </div>
 );
 
@@ -39,16 +51,15 @@ const WhyChooseUs = () => {
   ];
 
   return (
-    <section className="py-20">
+    <section id="benefits" className="py-20">
       <div className="max-w-7xl mx-auto px-5">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+          <h2
+            className={`${FONT_STYLES.sectionHeading} mb-6 `}
+          >
             Why Choose Us?
           </h2>
-          <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
-            Highlight your strengths and discover what sets our digital marketing services apart:
-          </p>
         </div>
 
         {/* Benefits Grid */}

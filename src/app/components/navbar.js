@@ -3,66 +3,101 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-const LOGO_FONT_SIZE = "text-2xl sm:text-3xl md:text-4xl";
-const MENU_FONT_SIZE = "text-base font-bold sm:text-lg";
-const MOBILE_MENU_FONT_SIZE = "text-lg";
-
-const navConfig = {
-  logo: { src: "/logo.png", alt: "SlammFoundation Logo" },
-  links: [
-    { id: "home", label: "Home", href: "#home" },
-    { id: "services", label: "Services", href: "#services" },
-    { id: "about", label: "About", href: "#about" },
-    { id: "contact", label: "Contact", href: "#contact" },
-  ],
-};
-
-const navColors = {
-  backgroundMobile: "bg-black/90",
-  linkDefault: "text-gray-900",
-  linkHover: "text-blue-200",
-  linkActive: "text-blue-900",
-  linkActiveIndicator: "bg-blue-200",
-  mobileLinkHoverBg: "bg-white/10",
-  mobileLinkActiveBg: "bg-white/5",
-};
-
 const Navbar = () => {
+  // 🔹 Local config only for this component
+  const navConfig = {
+    logo: { src: "/logo.png", alt: "SlammFoundation Logo" },
+    links: [
+      { id: "home", label: "Home", href: "#home" },
+      { id: "about", label: "About", href: "#about" },
+      { id: "services", label: "Services", href: "#services" },
+      { id: "benefits", label: "Benefits", href: "#benefits" },
+      { id: "contact", label: "Contact", href: "#contact" },
+    ],
+  };
+
+  // 🔹 Navbar styles (self-contained)
+  const navStyles = {
+    logo: "w-32 h-14 relative",
+    menuFont: "text-base font-bold sm:text-xl",
+    mobileMenuFont: "text-lg font-semibold",
+    colors: {
+      backgroundMobile: "bg-black/90",
+      linkDefault: "text-gray-900",
+      linkHover: "text-orange-400",
+      linkActive: "text-orange-600",
+      linkActiveIndicator: "bg-amber-400",
+      mobileLinkHoverBg: "hover:bg-orange-400/10",
+      mobileLinkActiveBg: "bg-orange-500/20 text-orange-400",
+    },
+  };
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const navRef = useRef(null);
 
-  // Track active section only (no scroll background change)
+  // 🔹 Track active section - FIXED VERSION
   useEffect(() => {
     const handleScroll = () => {
+      const navHeight = 120; // Your navbar height
+      const offset = navHeight + 50; // Add some buffer
+      
       const sections = navConfig.links.map((link) => link.id);
-      const currentSection = sections.find((section) => {
+      let currentSection = "home"; // Default fallback
+      
+      // Find the section that's currently most visible
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
         const element = document.getElementById(section);
+        
         if (element) {
           const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
+          const elementTop = rect.top + window.scrollY;
+          
+          // Check if we've scrolled past this section
+          if (window.scrollY >= elementTop - offset) {
+            currentSection = section;
+            break;
+          }
         }
-        return false;
-      });
-
-      if (currentSection) setActiveSection(currentSection);
+      }
+      
+      // Special case: if we're at the very top, always show "home"
+      if (window.scrollY < 100) {
+        currentSection = "home";
+      }
+      
+      setActiveSection(currentSection);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Set initial active section
+    handleScroll();
+    
+    // Add scroll listener with throttling for better performance
+    let ticking = false;
+    const throttledHandleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", throttledHandleScroll);
+    return () => window.removeEventListener("scroll", throttledHandleScroll);
   }, []);
 
-  // Close mobile menu on Escape key
+  // 🔹 Close mobile menu on Escape
   useEffect(() => {
     const handleEscape = (e) => e.key === "Escape" && setIsMobileMenuOpen(false);
-
     if (isMobileMenuOpen) {
       document.addEventListener("keydown", handleEscape);
       document.body.classList.add("mobile-menu-open");
     } else {
       document.body.classList.remove("mobile-menu-open");
     }
-
     return () => {
       document.removeEventListener("keydown", handleEscape);
       document.body.classList.remove("mobile-menu-open");
@@ -84,18 +119,18 @@ const Navbar = () => {
     <>
       <nav
         ref={navRef}
-        className="fixed top-0 left-0 right-0 z-50 w-full h-[120px] bg-transparent backdrop-blur-md transition-all duration-200"
+        className="fixed top-0 left-0 right-0 z-50 w-full h-[120px] bg-transparent transition-all duration-200"
       >
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-[120px]">
-            {/* Logo - Moved closer to center */}
+            {/* 🔹 Logo */}
             <Link href="#home" onClick={(e) => scrollToSection(e, "home")} className="lg:mr-8">
-              <div className={`w-32 h-14 relative ${LOGO_FONT_SIZE}`}>
+              <div className={navStyles.logo}>
                 <Image src={navConfig.logo.src} alt={navConfig.logo.alt} fill className="object-contain" />
               </div>
             </Link>
 
-            {/* Desktop Menu - Centered with logo */}
+            {/* 🔹 Desktop Menu */}
             <div className="hidden lg:flex items-center justify-center flex-1">
               <div className="flex items-center gap-8">
                 {navConfig.links.map((link) => (
@@ -103,14 +138,16 @@ const Navbar = () => {
                     key={link.id}
                     href={link.href}
                     className={`relative transition-all duration-200 ${
-                      activeSection === link.id ? navColors.linkActive : navColors.linkDefault
-                    } hover:${navColors.linkHover} ${MENU_FONT_SIZE}`}
+                      activeSection === link.id
+                        ? navStyles.colors.linkActive
+                        : navStyles.colors.linkDefault
+                    } hover:${navStyles.colors.linkHover} ${navStyles.menuFont}`}
                     onClick={(e) => scrollToSection(e, link.id)}
                   >
                     {link.label}
                     {activeSection === link.id && (
                       <div
-                        className={`absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 ${navColors.linkActiveIndicator} rounded-full`}
+                        className={`absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 ${navStyles.colors.linkActiveIndicator} rounded-full`}
                       />
                     )}
                   </a>
@@ -118,10 +155,10 @@ const Navbar = () => {
               </div>
             </div>
 
-            {/* Spacer for mobile menu toggle alignment */}
+            {/* 🔹 Spacer */}
             <div className="lg:hidden w-9"></div>
 
-            {/* Mobile Menu Toggle */}
+            {/* 🔹 Mobile Toggle */}
             <button
               className="lg:hidden flex flex-col gap-1 p-2 z-50 relative"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -129,24 +166,24 @@ const Navbar = () => {
             >
               <div
                 className={`w-6 h-0.5 transition-all duration-300 ${
-                  isMobileMenuOpen ? "rotate-45 translate-y-1.5 bg-white" : "bg-white"
+                  isMobileMenuOpen ? "rotate-45 translate-y-1.5 bg-white" : "bg-black"
                 }`}
               />
               <div
                 className={`w-6 h-0.5 transition-all duration-300 ${
-                  isMobileMenuOpen ? "opacity-0" : "bg-white"
+                  isMobileMenuOpen ? "opacity-0" : "bg-black"
                 }`}
               />
               <div
                 className={`w-6 h-0.5 transition-all duration-300 ${
-                  isMobileMenuOpen ? "-rotate-45 -translate-y-1.5 bg-white" : "bg-white"
+                  isMobileMenuOpen ? "-rotate-45 -translate-y-1.5 bg-white" : "bg-black"
                 }`}
               />
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* 🔹 Mobile Menu */}
         <div
           className={`lg:hidden fixed inset-0 z-40 transition-all duration-300 ${
             isMobileMenuOpen ? "visible" : "invisible"
@@ -160,7 +197,7 @@ const Navbar = () => {
           />
 
           <div
-            className={`absolute top-0 right-0 w-80 sm:w-96 h-full bg-black/90 backdrop-blur-md border-l border-white/20 transform transition-transform duration-300 ease-in-out ${
+            className={`absolute top-0 right-0 w-80 sm:w-96 h-full ${navStyles.colors.backgroundMobile} backdrop-blur-md border-l border-white/20 transform transition-transform duration-300 ease-in-out ${
               isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
             }`}
           >
@@ -171,8 +208,8 @@ const Navbar = () => {
                   href={link.href}
                   className={`block p-4 rounded-lg transition-colors duration-200 ${
                     activeSection === link.id
-                      ? `text-blue-200 bg-white/5 ${MOBILE_MENU_FONT_SIZE}`
-                      : `text-white hover:text-blue-200 hover:bg-white/10 ${MOBILE_MENU_FONT_SIZE}`
+                      ? `${navStyles.colors.mobileLinkActiveBg} ${navStyles.mobileMenuFont}`
+                      : `text-white ${navStyles.colors.mobileLinkHoverBg} ${navStyles.mobileMenuFont}`
                   }`}
                   onClick={(e) => scrollToSection(e, link.id)}
                 >
