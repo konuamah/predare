@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 
 const HeroCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -62,11 +63,14 @@ const HeroCarousel = () => {
               <div key={slide.id} className="flex-1 relative flex">
                 {/* Background overlay */}
                 <div className="absolute inset-0 bg-black/30 z-10"></div>
+
                 {/* Slide Background */}
-                <img
+                <Image
                   src={slide.image}
                   alt={slide.headline}
+                  fill
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  priority
                 />
 
                 {/* Left: Text */}
@@ -81,10 +85,12 @@ const HeroCarousel = () => {
 
                 {/* Right: SVG/Image */}
                 <div className="absolute right-0 z-20 flex justify-center items-center w-1/2 h-full pr-10 md:pr-16">
-                  <img
+                  <Image
                     src={slide.svg}
                     alt="Decorative SVG"
-                    className="h-3/4 w-auto object-contain"
+                    width={300} // adjust based on your design
+                    height={300}
+                    className="object-contain"
                   />
                 </div>
               </div>

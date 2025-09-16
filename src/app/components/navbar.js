@@ -3,77 +3,67 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
+// 🔹 Move navConfig outside the component to avoid stale dependencies
+const navConfig = {
+  logo: { src: "/logo.png", alt: "SlammFoundation Logo" },
+  links: [
+    { id: "home", label: "Home", href: "#home" },
+    { id: "about", label: "About", href: "#about" },
+    { id: "services", label: "Services", href: "#services" },
+    { id: "benefits", label: "Benefits", href: "#benefits" },
+    { id: "contact", label: "Contact", href: "#contact" },
+  ],
+};
+
+const navStyles = {
+  logo: "w-32 h-14 relative",
+  menuFont: "text-base font-bold sm:text-xl",
+  mobileMenuFont: "text-lg font-semibold",
+  colors: {
+    backgroundMobile: "bg-black/90",
+    linkDefault: "text-gray-900",
+    linkHover: "text-orange-400",
+    linkActive: "text-orange-600",
+    linkActiveIndicator: "bg-amber-400",
+    mobileLinkHoverBg: "hover:bg-orange-400/10",
+    mobileLinkActiveBg: "bg-orange-500/20 text-orange-400",
+  },
+};
+
 const Navbar = () => {
-  // 🔹 Local config only for this component
-  const navConfig = {
-    logo: { src: "/logo.png", alt: "SlammFoundation Logo" },
-    links: [
-      { id: "home", label: "Home", href: "#home" },
-      { id: "about", label: "About", href: "#about" },
-      { id: "services", label: "Services", href: "#services" },
-      { id: "benefits", label: "Benefits", href: "#benefits" },
-      { id: "contact", label: "Contact", href: "#contact" },
-    ],
-  };
-
-  // 🔹 Navbar styles (self-contained)
-  const navStyles = {
-    logo: "w-32 h-14 relative",
-    menuFont: "text-base font-bold sm:text-xl",
-    mobileMenuFont: "text-lg font-semibold",
-    colors: {
-      backgroundMobile: "bg-black/90",
-      linkDefault: "text-gray-900",
-      linkHover: "text-orange-400",
-      linkActive: "text-orange-600",
-      linkActiveIndicator: "bg-amber-400",
-      mobileLinkHoverBg: "hover:bg-orange-400/10",
-      mobileLinkActiveBg: "bg-orange-500/20 text-orange-400",
-    },
-  };
-
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const navRef = useRef(null);
 
-  // 🔹 Track active section - FIXED VERSION
+  // 🔹 Track active section
   useEffect(() => {
     const handleScroll = () => {
-      const navHeight = 120; // Your navbar height
-      const offset = navHeight + 50; // Add some buffer
-      
+      const navHeight = 120;
+      const offset = navHeight + 50;
+
       const sections = navConfig.links.map((link) => link.id);
-      let currentSection = "home"; // Default fallback
-      
-      // Find the section that's currently most visible
+      let currentSection = "home";
+
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = sections[i];
         const element = document.getElementById(section);
-        
         if (element) {
           const rect = element.getBoundingClientRect();
           const elementTop = rect.top + window.scrollY;
-          
-          // Check if we've scrolled past this section
           if (window.scrollY >= elementTop - offset) {
             currentSection = section;
             break;
           }
         }
       }
-      
-      // Special case: if we're at the very top, always show "home"
-      if (window.scrollY < 100) {
-        currentSection = "home";
-      }
-      
+
+      if (window.scrollY < 100) currentSection = "home";
+
       setActiveSection(currentSection);
     };
 
-    // Set initial active section
     handleScroll();
-    
-    // Add scroll listener with throttling for better performance
+
     let ticking = false;
     const throttledHandleScroll = () => {
       if (!ticking) {
@@ -87,7 +77,7 @@ const Navbar = () => {
 
     window.addEventListener("scroll", throttledHandleScroll);
     return () => window.removeEventListener("scroll", throttledHandleScroll);
-  }, []);
+  }, []); // ✅ no warning now
 
   // 🔹 Close mobile menu on Escape
   useEffect(() => {
@@ -123,14 +113,14 @@ const Navbar = () => {
       >
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-[120px]">
-            {/* 🔹 Logo */}
+            {/* Logo */}
             <Link href="#home" onClick={(e) => scrollToSection(e, "home")} className="lg:mr-8">
               <div className={navStyles.logo}>
                 <Image src={navConfig.logo.src} alt={navConfig.logo.alt} fill className="object-contain" />
               </div>
             </Link>
 
-            {/* 🔹 Desktop Menu */}
+            {/* Desktop Menu */}
             <div className="hidden lg:flex items-center justify-center flex-1">
               <div className="flex items-center gap-8">
                 {navConfig.links.map((link) => (
@@ -155,10 +145,9 @@ const Navbar = () => {
               </div>
             </div>
 
-            {/* 🔹 Spacer */}
             <div className="lg:hidden w-9"></div>
 
-            {/* 🔹 Mobile Toggle */}
+            {/* Mobile Toggle */}
             <button
               className="lg:hidden flex flex-col gap-1 p-2 z-50 relative"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -183,7 +172,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* 🔹 Mobile Menu */}
+        {/* Mobile Menu */}
         <div
           className={`lg:hidden fixed inset-0 z-40 transition-all duration-300 ${
             isMobileMenuOpen ? "visible" : "invisible"

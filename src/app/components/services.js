@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Image from "next/image"; // ✅ import Image
 
 // ----------------------
 // Config: Fonts & Colors
@@ -15,7 +16,7 @@ const FONT_STYLES = {
 
 const COLORS = {
   borderGray: "border-gray-200",
-  accent: "text-orange-500", // 🔸 orange brand accent
+  accent: "text-orange-500",
 };
 
 // ----------------------
@@ -27,43 +28,37 @@ const ServicesSection = () => {
       title: "Search Engine Optimization (SEO)",
       description:
         "Optimize your website to improve search engine ranking and drive more organic traffic.",
-      imageUrl:
-        "/seo.png",
+      imageUrl: "/seo.png",
     },
     {
       title: "Pay-Per-Click (PPC) Advertising",
       description:
         "Create and manage effective PPC campaigns to maximize ROI.",
-      imageUrl:
-        "/advert.png",
+      imageUrl: "/advert.png",
     },
     {
       title: "Social Media Marketing",
       description:
         "Build and engage your audience through social media content, community management, and advertising.",
-      imageUrl:
-        "/social.png",
+      imageUrl: "/social.png",
     },
     {
       title: "Content Marketing",
       description:
         "Develop content strategies aligned with your business goals to engage your target audience.",
-      imageUrl:
-        "/content.png",
+      imageUrl: "/content.png",
     },
     {
       title: "Email Marketing",
       description:
         "Execute email campaigns that drive engagement and conversions with segmentation and personalization.",
-      imageUrl:
-        "/email.png",
+      imageUrl: "/email.png",
     },
     {
       title: "Analytics & Reporting",
       description:
         "Provide detailed analytics to make data-driven decisions and optimize marketing strategies.",
-      imageUrl:
-        "/analytics.png",
+      imageUrl: "/analytics.png",
     },
   ];
 
@@ -71,20 +66,18 @@ const ServicesSection = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [isClient, setIsClient] = useState(false);
 
-  // Ensure we're on the client side before using window
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   const handleServiceClick = (index) => {
     if (isClient && window.innerWidth < 1024) {
-      // Mobile and tablet behavior
       setExpandedIndex(expandedIndex === index ? null : index);
     }
   };
 
   const isExpanded = (index) => {
-    if (!isClient) return false; // Default to collapsed during SSR
+    if (!isClient) return false;
 
     if (window.innerWidth >= 1024) {
       return hoveredIndex === index;
@@ -95,14 +88,12 @@ const ServicesSection = () => {
   return (
     <section id="services" className="relative py-12 mt-20 sm:py-16 lg:py-24">
       <div className="relative container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Main heading */}
         <div className="mb-8 sm:mb-12 lg:mb-16">
           <h2 className={`${FONT_STYLES.heading}`}>
             Full Support for Your Digital Marketing Needs
           </h2>
         </div>
 
-        {/* Services vertical stack */}
         <div className="space-y-2 sm:space-y-4">
           {services.map((service, index) => (
             <div
@@ -158,11 +149,14 @@ const ServicesSection = () => {
                     </p>
                   </div>
                   <div className="w-full lg:w-1/2 order-1 lg:order-2">
-                    <img
+                    {/* ✅ Replaced <img> with next/image */}
+                    <Image
                       src={service.imageUrl}
                       alt={`${service.title} visual representation`}
+                      width={600} // adjust based on design
+                      height={400} // adjust based on design
                       className="w-full h-48 sm:h-56 md:h-64 lg:h-auto object-cover rounded-lg shadow-md"
-                      loading="lazy"
+                      priority={index < 2} // preload first 2 for better LCP
                     />
                   </div>
                 </div>

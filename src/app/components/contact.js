@@ -17,6 +17,7 @@ export default function AppleForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
+    // 🔮 You can replace this with fetch("/api/contact", { method: "POST", body: JSON.stringify(formData) })
   };
 
   const handleFocus = (fieldName) => {
@@ -64,11 +65,12 @@ export default function AppleForm() {
               Get in Touch
             </h2>
             <p className="text-xl font-light text-gray-600 leading-relaxed max-w-md mx-auto">
-              Fill out the form below and we'll get back to you shortly.
+              Fill out the form below and we&apos;ll get back to you shortly.
             </p>
           </div>
 
-          <div className="space-y-12">
+          {/* ✅ Wrap inputs in <form> */}
+          <form onSubmit={handleSubmit} className="space-y-12">
             {/* Name Field */}
             <div className="relative">
               <input
@@ -128,6 +130,7 @@ export default function AppleForm() {
                   e.target.style.height =
                     Math.max(60, e.target.scrollHeight) + "px";
                 }}
+                aria-multiline="true"
               />
               <label htmlFor="message" className={getLabelClasses("message")}>
                 Message
@@ -137,14 +140,13 @@ export default function AppleForm() {
             {/* Submit Button */}
             <div className="pt-8">
               <button
-                type="button"
-                onClick={handleSubmit}
+                type="submit"
                 className="w-full bg-orange-600 hover:bg-orange-700 text-white font-medium text-lg py-4 px-8 rounded-full transition-all duration-200 ease-out transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-orange-600/25 hover:shadow-xl hover:shadow-orange-600/30"
               >
                 Send Message
               </button>
             </div>
-          </div> {/* ✅ properly closed */}
+          </form>
         </div>
       </div>
     </div>
