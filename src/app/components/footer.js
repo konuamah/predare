@@ -32,7 +32,7 @@ const Footer = () => {
 
         {/* Copyright Notice */}
         <div className="text-gray-500 text-sm text-center lg:text-right">
-          &copy; {new Date().getFullYear()} Your Company Name. All rights reserved.
+          &copy; {new Date().getFullYear()} Predare . All rights reserved.
         </div>
       </div>
     </footer>

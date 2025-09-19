@@ -2,21 +2,22 @@
 
 // Typography
 export const FONT_STYLES = {
-  heading:
-    "font-sans font-bold text-gray-900 text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight",
-  subheading:
-    "font-sans font-medium text-gray-800 text-lg sm:text-xl md:text-2xl lg:text-3xl leading-snug",
-  sectionHeading:
-    "font-sans font-bold text-gray-900 text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight",
-  sectionSubtitle:
-    "ffont-sans font-medium text-gray-800 text-lg sm:text-xl md:text-2xl lg:text-3xl leading-snug",
-  body:
-    "font-sans text-gray-600 text-base sm:text-lg leading-relaxed",
-  bodyStrong:
-    "font-sans font-medium text-gray-700 text-base sm:text-lg leading-relaxed",
-  accent:
-    "font-sans font-semibold text-orange-500 text-sm sm:text-base md:text-lg uppercase tracking-wide", // 🔸 orange highlight
+  heading: 
+    "font-sans font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl text-gray-900 leading-tight",
+  subheading: 
+    "font-sans font-medium text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl text-gray-800 leading-snug",
+  sectionHeading: 
+    "font-sans font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl text-gray-900 leading-tight",
+  sectionSubtitle: 
+    "font-sans font-medium text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-3xl text-gray-800 leading-snug",
+  body: 
+    "font-sans text-base sm:text-lg md:text-lg lg:text-lg text-gray-600 leading-relaxed",
+  bodyStrong: 
+    "font-sans font-medium text-base sm:text-lg md:text-lg lg:text-lg text-gray-700 leading-relaxed",
+  accent: 
+    "font-sans font-semibold text-sm sm:text-base md:text-lg uppercase tracking-wide text-orange-500",
 };
+
 
 // Colors
 export const COLORS = {

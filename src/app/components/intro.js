@@ -5,12 +5,12 @@ const FocusSection = () => {
   return (
     <div
       id="about"
-      className="max-w-7xl mx-auto  px-6 flex xl:flex-row flex-col-reverse items-stretch gap-30"
+      className="max-w-7xl mx-auto px-6 mt-28 flex xl:flex-row flex-col-reverse items-stretch gap-30"
     >
       {/* Image Container */}
       <div className="relative flex-1 w-full max-w-2xl xl:max-w-none">
         <Image
-          alt="info block image"
+          alt="About section image"
           width={622}
           height={630}
           className="object-cover w-full h-full rounded-2xl"
@@ -24,14 +24,14 @@ const FocusSection = () => {
         <p className={`${FONT_STYLES.accent} mb-3`}>Our Focus</p>
 
         {/* Main Title */}
-        <h2 className={`${FONT_STYLES.heading} mb-6`}>Trust First</h2>
+        <h2 className={`${FONT_STYLES.heading} mb-6`}>
+          Partnership, Not Promises
+        </h2>
 
         {/* Description */}
         <p className={`${FONT_STYLES.body} mb-8`}>
-          Predare Marketing and Event Consultation provides a comprehensive
-          range of digital marketing services to help your business succeed
-          online. Our goal is to help you achieve your business objectives by
-          leveraging the power of digital channels.
+          We’re based right here in Northern Virginia, and we work with small
+          businesses to build a real, sustainable online presence.
         </p>
 
         {/* Why Choose Section */}
@@ -42,9 +42,9 @@ const FocusSection = () => {
 
           <div className="flex flex-col gap-5">
             {[
-              "Proven expertise in digital marketing and event management.",
-              "Customized strategies tailored to your unique business goals.",
-              "Dedicated support and measurable results that drive growth.",
+              "Local & Hands-On – We can stop by your business, take photos, and walk you through the setup.",
+              "Simple, Clear Packages – No long contracts. Just straightforward support that matches your budget.",
+              "Systems + Content – We set up the platforms you need and create content to keep them alive.",
             ].map((benefit, idx) => (
               <div
                 key={idx}

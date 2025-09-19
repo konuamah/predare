@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Image from "next/image"; // ✅ import Image
+import Image from "next/image";
 
 // ----------------------
 // Config: Fonts & Colors
@@ -25,40 +25,76 @@ const COLORS = {
 const ServicesSection = () => {
   const services = [
     {
-      title: "Search Engine Optimization (SEO)",
-      description:
-        "Optimize your website to improve search engine ranking and drive more organic traffic.",
+      title: "Digital Presence Starter",
+      description: (
+        <>
+          <p>
+            Get your business found online with the essentials.
+          </p>
+          <ul className="list-disc pl-6 mt-2 space-y-1">
+            <li>Google Business Profile setup & optimization</li>
+            <li>Yelp and Facebook/Instagram business page setup</li>
+            <li>Basic website or landing page audit</li>
+            <li>
+              Quick training session so you (or staff) can manage updates
+            </li>
+          </ul>
+          <p className="mt-3 font-semibold">
+            Best for: new or small businesses who aren’t showing up online yet.
+          </p>
+        </>
+      ),
       imageUrl: "/seo.png",
     },
     {
-      title: "Pay-Per-Click (PPC) Advertising",
-      description:
-        "Create and manage effective PPC campaigns to maximize ROI.",
-      imageUrl: "/advert.png",
-    },
-    {
-      title: "Social Media Marketing",
-      description:
-        "Build and engage your audience through social media content, community management, and advertising.",
+      title: "Social Kickstart",
+      description: (
+        <>
+          <p>
+            Build a strong social media foundation without the overwhelm.
+          </p>
+          <ul className="list-disc pl-6 mt-2 space-y-1">
+            <li>Setup or refresh of 2–3 social media platforms</li>
+            <li>One-month content calendar (templates + posting plan)</li>
+            <li>5 branded graphics or post templates</li>
+            <li>
+              Option to add on management if you want us to post for you
+            </li>
+          </ul>
+          <p className="mt-3 font-semibold">
+            Best for: businesses who want to connect with their community but
+            don’t know what to post.
+          </p>
+        </>
+      ),
       imageUrl: "/social.png",
     },
     {
-      title: "Content Marketing",
-      description:
-        "Develop content strategies aligned with your business goals to engage your target audience.",
-      imageUrl: "/content.png",
-    },
-    {
-      title: "Email Marketing",
-      description:
-        "Execute email campaigns that drive engagement and conversions with segmentation and personalization.",
-      imageUrl: "/email.png",
-    },
-    {
-      title: "Analytics & Reporting",
-      description:
-        "Provide detailed analytics to make data-driven decisions and optimize marketing strategies.",
-      imageUrl: "/analytics.png",
+      title: "Growth Partner",
+      description: (
+        <>
+          <p>
+            Ongoing support so your business keeps showing up and growing.
+          </p>
+          <ul className="list-disc pl-6 mt-2 space-y-1">
+            <li>
+              Monthly social posting & content creation (photos + short videos)
+            </li>
+            <li>Simple paid ad campaigns to reach more local customers</li>
+            <li>
+              Monthly performance report with actionable insights
+            </li>
+            <li>
+              Priority support for updates or seasonal promotions
+            </li>
+          </ul>
+          <p className="mt-3 font-semibold">
+            Best for: businesses ready to scale their marketing with consistent
+            support.
+          </p>
+        </>
+      ),
+      imageUrl: "/growth.png",
     },
   ];
 
@@ -86,11 +122,11 @@ const ServicesSection = () => {
   };
 
   return (
-    <section id="services" className="relative py-12 mt-20 sm:py-16 lg:py-24">
+    <section id="services" className="relative  mt-28 ">
       <div className="relative container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 sm:mb-12 lg:mb-16">
           <h2 className={`${FONT_STYLES.heading}`}>
-            Full Support for Your Digital Marketing Needs
+            Packages to Build and Grow Your Online Presence
           </h2>
         </div>
 
@@ -144,25 +180,32 @@ const ServicesSection = () => {
               >
                 <div className="flex flex-col lg:flex-row items-start gap-6 sm:gap-8 lg:gap-12 pt-4">
                   <div className="w-full lg:w-1/2 order-2 lg:order-1">
-                    <p className={FONT_STYLES.serviceDescription}>
+                    <div className={FONT_STYLES.serviceDescription}>
                       {service.description}
-                    </p>
+                    </div>
                   </div>
                   <div className="w-full lg:w-1/2 order-1 lg:order-2">
-                    {/* ✅ Replaced <img> with next/image */}
                     <Image
                       src={service.imageUrl}
                       alt={`${service.title} visual representation`}
-                      width={600} // adjust based on design
-                      height={400} // adjust based on design
+                      width={600}
+                      height={400}
                       className="w-full h-48 sm:h-56 md:h-64 lg:h-auto object-cover rounded-lg shadow-md"
-                      priority={index < 2} // preload first 2 for better LCP
+                      priority={index < 2}
                     />
                   </div>
                 </div>
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Custom Packages Note */}
+        <div className="mt-10 text-center text-black text-base sm:text-lg md:text-xl">
+          <p>
+            <span className="font-semibold">Custom packages available</span> on
+            request — we’ll build something that fits your goals and budget.
+          </p>
         </div>
       </div>
     </section>
