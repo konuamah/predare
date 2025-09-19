@@ -40,7 +40,7 @@ const ServicesSection = () => {
             </li>
           </ul>
           <p className="mt-3 sm:mt-4 font-semibold text-sm sm:text-base">
-            Best for: new or small businesses who aren't showing up online yet.
+            Best for: new or small businesses who aren&apos;t showing up online yet.
           </p>
         </>
       ),
@@ -63,7 +63,7 @@ const ServicesSection = () => {
           </ul>
           <p className="mt-3 sm:mt-4 font-semibold text-sm sm:text-base">
             Best for: businesses who want to connect with their community but
-            don't know what to post.
+            don&apos;t know what to post.
           </p>
         </>
       ),
@@ -217,7 +217,7 @@ const ServicesSection = () => {
           <div className=" p-4 sm:p-6 md:p-8 max-w-4xl mx-auto">
             <p className="text-black text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed">
               <span className="font-semibold text-orange-600">Custom packages available</span>{" "}
-              on request — we'll build something that fits your goals and budget.
+              on request — we&apos;ll build something that fits your goals and budget.
             </p>
           </div>
         </div>

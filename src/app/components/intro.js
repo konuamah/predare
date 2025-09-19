@@ -32,10 +32,11 @@ const FocusSection = () => {
           </h2>
 
           {/* Description */}
-          <p className={`${FONT_STYLES.body} mb-6 sm:mb-8 text-base sm:text-lg leading-relaxed`}>
-            We're based right here in Northern Virginia, and we work with small
-            businesses to build a real, sustainable online presence.
-          </p>
+     <p className={`${FONT_STYLES.body} mb-6 sm:mb-8 text-base sm:text-lg leading-relaxed`}>
+  We&apos;re based right here in Northern Virginia, and we work with small
+  businesses to build a real, sustainable online presence.
+</p>
+
 
           {/* Why Choose Section */}
           <div>
