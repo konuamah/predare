@@ -41,20 +41,22 @@ const HeroSection = () => {
                 At <span className="font-semibold text-orange-600">Predare</span>, we set up the right digital systems and give you the content and support to keep growing.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 sm:pt-4">
-                <a
-                  href="#consultation"
-                  className="inline-block rounded-full bg-orange-600 px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg font-semibold text-white shadow-md transition hover:bg-orange-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 text-center"
-                >
-                  Book a Free Consultation
-                </a>
-                <a
-                  href="#learn-more"
-                  className="inline-block rounded-full border border-gray-300 px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg font-medium text-gray-700 hover:bg-gray-100 hover:border-gray-400 transition text-center"
-                >
-                  Learn More
-                </a>
-              </div>
+    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 sm:pt-4">
+  <button
+    onClick={() => document.getElementById("contact").scrollIntoView({ behavior: "smooth" })}
+    className="inline-block rounded-full bg-orange-600 px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg font-semibold text-white shadow-md transition hover:bg-orange-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 text-center"
+  >
+    Book a Free Consultation
+  </button>
+
+  <button
+    onClick={() => document.getElementById("about").scrollIntoView({ behavior: "smooth" })}
+    className="inline-block rounded-full border border-gray-300 px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg font-medium text-gray-700 hover:bg-gray-100 hover:border-gray-400 transition text-center"
+  >
+    Learn More
+  </button>
+</div>
+
             </div>
 
             {/* Right Column - SVG Marquee */}
