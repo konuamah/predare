@@ -70,6 +70,46 @@ const ServicesSection = () => {
       imageUrl: "/social.png",
     },
     {
+      title: "Web Development",
+      description: (
+        <>
+          <p className="mb-3 sm:mb-4">
+            Custom websites and applications that drive your business forward.
+          </p>
+          <ul className="list-disc pl-5 sm:pl-6 mt-2 sm:mt-3 space-y-1 sm:space-y-2 text-sm sm:text-base">
+            <li>Responsive website design and development</li>
+            <li>E-commerce platforms and booking systems</li>
+            <li>Custom web applications and dashboards</li>
+            <li>SEO optimization and performance tuning</li>
+          </ul>
+          <p className="mt-3 sm:mt-4 font-semibold text-sm sm:text-base">
+            Best for: businesses needing a professional online presence or custom digital tools.
+          </p>
+        </>
+      ),
+      imageUrl: "/web-dev.jpg",
+    },
+    {
+      title: "Graphic Design",
+      description: (
+        <>
+          <p className="mb-3 sm:mb-4">
+            Stunning visuals that make your brand unforgettable.
+          </p>
+          <ul className="list-disc pl-5 sm:pl-6 mt-2 sm:mt-3 space-y-1 sm:space-y-2 text-sm sm:text-base">
+            <li>Logo design and brand identity packages</li>
+            <li>Marketing materials and social media graphics</li>
+            <li>Print design (business cards, brochures, flyers)</li>
+            <li>Custom illustrations and digital artwork</li>
+          </ul>
+          <p className="mt-3 sm:mt-4 font-semibold text-sm sm:text-base">
+            Best for: businesses wanting to stand out with professional, eye-catching designs.
+          </p>
+        </>
+      ),
+      imageUrl: "/graphic-design.jpg",
+    },
+    {
       title: "Growth Partner",
       description: (
         <>

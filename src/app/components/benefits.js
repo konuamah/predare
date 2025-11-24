@@ -48,6 +48,18 @@ const WhyChooseUs = () => {
       description:
         "Stay informed with clear, detailed reports on campaign performance, analytics, and actionable insights.",
     },
+    {
+      Icon: CheckCircle,
+      title: "Web Development Excellence",
+      description:
+        "We build responsive, high-performance websites and custom web applications that drive business growth and user engagement.",
+    },
+    {
+      Icon: Award,
+      title: "Graphic Design Mastery",
+      description:
+        "Our creative team delivers stunning visual designs that capture your brand essence and make you stand out from the competition.",
+    },
   ];
 
   return (

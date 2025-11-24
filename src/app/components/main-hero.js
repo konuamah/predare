@@ -1,94 +1,119 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import Image from "next/image";
+import { Plus_Jakarta_Sans } from "next/font/google";
+import { ArrowUpRight, Link as LinkIcon } from "lucide-react";
 
-const HeroSection = () => {
-  // List of SVG paths (in public/svgs/)
-  const svgList = [
-    '/growth.svg',
-    '/rocket-2.svg',
-    '/support.svg',
-    '/analytics.svg',
-  ];
+// Loading the font to match the clean sans-serif look
+const font = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % svgList.length);
-    }, 3000); // Change every 3 seconds
-
-    return () => clearInterval(interval);
-  }, [svgList.length]);
-
+export default function HeroSection() {
   return (
-    <section className="relative text-gray-900 bg-[url('/Predare.jpg')] bg-cover bg-center bg-no-repeat mt-4 sm:mt-8 lg:mt-12">
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-white/70"></div>
+    <div className={`min-h-screen bg-cream text-primary ${font.className}`}>
+      <main className="container mx-auto px-6 mt-12 lg:mt-20">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
-      {/* Main container with responsive spacing */}
-      <div className="relative py-12 px-4 sm:py-16 sm:px-6 md:py-20 md:px-8 lg:py-24 lg:px-12 xl:px-20">
-        <div className="mx-auto max-w-screen-xl">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12 lg:gap-16 w-full items-center min-h-[60vh]">
-            
-            {/* Left Column - Text Content */}
-            <div className="flex flex-col justify-center space-y-4 sm:space-y-6 order-2 md:order-1">
-              <h1 className="font-bold tracking-tight text-[clamp(2rem,8vw,3rem)] sm:text-[clamp(2.5rem,6vw,4rem)] md:text-[clamp(3rem,5vw,5rem)] lg:text-[clamp(4rem,4vw,6rem)] xl:text-[clamp(5rem,3vw,7rem)] leading-[0.9]">
-                Grow Your Business Online
-              </h1>
+          {/* Left Column: Text & CTA */}
+          <div>
+            <h1 className="text-5xl text-black t lg:text-[4rem] leading-[1.1] font-bold mb-6 text-primary">
+              Building Bridges Between You And Customers
+            </h1>
 
-              <p className="text-base sm:text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl">
-                At <span className="font-semibold text-orange-600">Predare</span>, we set up the right digital systems and give you the content and support to keep growing.
-              </p>
+            <p className="text-gray-500 text-lg mb-10 max-w-md leading-relaxed">
+              Business ideas at the right price. Challenge everything. Keeping advertising standards high. Research based advertising for the bulls.
+            </p>
 
-    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 sm:pt-4">
-  <button
-    onClick={() => document.getElementById("contact").scrollIntoView({ behavior: "smooth" })}
-    className="inline-block rounded-full bg-orange-600 px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg font-semibold text-white shadow-md transition hover:bg-orange-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 text-center"
-  >
-    Book a Free Consultation
-  </button>
+            {/* CTA Area */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+              <button
+                className="button text-primary font-semibold px-8 py-4 rounded-xl shadow-sm"
+                onClick={() => {
+                  const contactSection = document.getElementById('contact');
+                  if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+              >
+                Get Started
+              </button>
 
-  <button
-    onClick={() => document.getElementById("about").scrollIntoView({ behavior: "smooth" })}
-    className="inline-block rounded-full border border-gray-300 px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg font-medium text-gray-700 hover:bg-gray-100 hover:border-gray-400 transition text-center"
-  >
-    Learn More
-  </button>
-</div>
+              <div className="flex items-center gap-4">
+                <div className="text-sm text-gray-500 font-medium leading-tight">
+                  Manage your business.<br />
+                  <span className="text-gray-500 font-normal">The professional way</span>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Image & Stats */}
+          <div className="relative">
+            {/* Decorative Dots Background */}
+            <div className="absolute -top-10 -left-10 w-32 h-32 bg-dots [background-size:16px_16px] opacity-50"></div>
+
+            {/* Main Image Container */}
+            <div className="relative rounded-[2rem] overflow-hidden h-[400px] lg:h-[450px] w-full shadow-lg">
+              <Image
+                src="/team.png"
+                alt="Team collaboration"
+                fill
+                className="object-cover"
+                priority
+              />
+
 
             </div>
 
-            {/* Right Column - SVG Marquee */}
-   <motion.div 
-              className="relative flex items-center justify-center py-4 sm:py-6 md:py-8 order-1 md:order-2"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="relative w-full max-w-[200px] sm:max-w-[250px] md:max-w-[300px] lg:max-w-[350px] aspect-square overflow-hidden">
-                <AnimatePresence mode="wait">
-                  <motion.img
-                    key={index}
-                    src={svgList[index]}
-                    alt={`Feature ${index + 1}`}
-                    initial={{ y: 100, opacity: 0, scale: 0.8 }}
-                    animate={{ y: 0, opacity: 1, scale: 1 }}
-                    exit={{ y: -100, opacity: 0, scale: 0.8 }}
-                    transition={{
-                      y: { type: 'spring', stiffness: 300, damping: 30 },
-                      opacity: { duration: 0.2 },
-                      scale: { duration: 0.3 }
-                    }}
-                    className="absolute inset-0 w-full h-full p-3 sm:p-4 md:p-6 object-contain rounded-2xl"
-                  />
-                </AnimatePresence>
+            {/* Stats Row (Below Image) */}
+            <div className="flex justify-between mt-8 px-2">
+              <div>
+                <h3 className="text-2xl font-bold text-black">50+</h3>
+                <p className="text-xs font-medium text-gray-500 mt-1">Businesses Helped</p>
               </div>
-            </motion.div>
+              <div>
+                <h3 className="text-2xl font-bold text-black">15-25</h3>
+                <p className="text-xs font-medium text-gray-500 mt-1">Clients Monthly</p>
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-black">24</h3>
+                <p className="text-xs font-medium text-gray-500 mt-1">Months of Success</p>
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-black">1000+</h3>
+                <p className="text-xs font-medium text-gray-500 mt-1">Appointments Booked</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Bottom Section Hint (The start of the cards) */}
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Card 1: Client Acquisition System - Soft Beige/Grey Gradient */}
+          <div className="h-48 rounded-3xl p-8 relative overflow-hidden group cursor-pointer flex flex-col justify-center items-center text-center bg-gradient-to-br from-neutral-50 to-stone-200 shadow-sm transition-shadow duration-300 hover:shadow-lg">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Client Acquisition System</h3>
+            <p className="text-sm text-gray-600 leading-relaxed max-w-[250px]">
+              We build a system that gets you 30-100 clients every single month on Auto-pilot.
+            </p>
+          </div>
+
+          {/* Card 2: 1-on-1 Business Consultation - Soft White/Light Grey Gradient */}
+          <div className="h-48 rounded-3xl p-8 relative overflow-hidden flex flex-col justify-center items-center text-center bg-gradient-to-br from-white to-gray-100 shadow-sm transition-shadow duration-300 hover:shadow-lg">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">1-on-1 Business Consultation</h3>
+            <p className="text-sm text-gray-600 leading-relaxed max-w-[250px]">
+              We assess your business to help you get clarity on what needs to be done to grow and scale your revenue faster.
+            </p>
+          </div>
+
+          {/* Card 3: 90-Day Money Back Guarantee - Soft Pale Blue/Mint Gradient (still neutral but adds slight dimension) */}
+          <div className="h-48 rounded-3xl p-8 relative overflow-hidden flex flex-col justify-center items-center text-center bg-gradient-to-br from-blue-50 to-indigo-100 shadow-sm transition-shadow duration-300 hover:shadow-lg">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">90-Day Money Back Guarantee</h3>
+            <p className="text-sm text-gray-600 leading-relaxed max-w-[250px]">
+              We believe in our proven system and you don&apos;t have any risk. If you don&apos;t get any client in 90 days, we give back your money.
+            </p>
           </div>
         </div>
-      </div>
-    </section>
+      </main>
+    </div>
   );
-};
-
-export default HeroSection;
+}

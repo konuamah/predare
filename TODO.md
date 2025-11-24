@@ -1,0 +1,3 @@
+- [x] Add global button background color variables to globals.css
+- [x] Update button classes in main-hero.js to use new global colors
+- [x] Verify changes by running dev server

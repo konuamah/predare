@@ -5,12 +5,13 @@ import Image from "next/image";
 
 // 🔹 Move navConfig outside the component to avoid stale dependencies
 const navConfig = {
-  logo: { src: "/logo.png", alt: "SlammFoundation Logo" },
+  logo: { src: "/Primeagle-logo-removebg-preview.png", alt: "Primeagle Logo" },
   links: [
     { id: "home", label: "Home", href: "#home" },
     { id: "about", label: "About", href: "#about" },
     { id: "services", label: "Services", href: "#services" },
     { id: "benefits", label: "Benefits", href: "#benefits" },
+    { id: "portfolio", label: "Portfolio", href: "#portfolio" },
     { id: "contact", label: "Contact", href: "#contact" },
   ],
 };
@@ -127,11 +128,10 @@ const Navbar = () => {
                   <a
                     key={link.id}
                     href={link.href}
-                    className={`relative transition-all duration-200 ${
-                      activeSection === link.id
+                    className={`relative transition-all duration-200 ${activeSection === link.id
                         ? navStyles.colors.linkActive
                         : navStyles.colors.linkDefault
-                    } hover:${navStyles.colors.linkHover} ${navStyles.menuFont}`}
+                      } hover:${navStyles.colors.linkHover} ${navStyles.menuFont}`}
                     onClick={(e) => scrollToSection(e, link.id)}
                   >
                     {link.label}
@@ -154,19 +154,16 @@ const Navbar = () => {
               aria-label="Toggle mobile menu"
             >
               <div
-                className={`w-6 h-0.5 transition-all duration-300 ${
-                  isMobileMenuOpen ? "rotate-45 translate-y-1.5 bg-white" : "bg-black"
-                }`}
+                className={`w-6 h-0.5 transition-all duration-300 ${isMobileMenuOpen ? "rotate-45 translate-y-1.5 bg-white" : "bg-black"
+                  }`}
               />
               <div
-                className={`w-6 h-0.5 transition-all duration-300 ${
-                  isMobileMenuOpen ? "opacity-0" : "bg-black"
-                }`}
+                className={`w-6 h-0.5 transition-all duration-300 ${isMobileMenuOpen ? "opacity-0" : "bg-black"
+                  }`}
               />
               <div
-                className={`w-6 h-0.5 transition-all duration-300 ${
-                  isMobileMenuOpen ? "-rotate-45 -translate-y-1.5 bg-white" : "bg-black"
-                }`}
+                className={`w-6 h-0.5 transition-all duration-300 ${isMobileMenuOpen ? "-rotate-45 -translate-y-1.5 bg-white" : "bg-black"
+                  }`}
               />
             </button>
           </div>
@@ -174,32 +171,28 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         <div
-          className={`lg:hidden fixed inset-0 z-40 transition-all duration-300 ${
-            isMobileMenuOpen ? "visible" : "invisible"
-          }`}
+          className={`lg:hidden fixed inset-0 z-40 transition-all duration-300 ${isMobileMenuOpen ? "visible" : "invisible"
+            }`}
         >
           <div
-            className={`absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity duration-300 ${
-              isMobileMenuOpen ? "opacity-100" : "opacity-0"
-            }`}
+            className={`absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity duration-300 ${isMobileMenuOpen ? "opacity-100" : "opacity-0"
+              }`}
             onClick={() => setIsMobileMenuOpen(false)}
           />
 
           <div
-            className={`absolute top-0 right-0 w-80 sm:w-96 h-full ${navStyles.colors.backgroundMobile} backdrop-blur-md border-l border-white/20 transform transition-transform duration-300 ease-in-out ${
-              isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-            }`}
+            className={`absolute top-0 right-0 w-80 sm:w-96 h-full ${navStyles.colors.backgroundMobile} backdrop-blur-md border-l border-white/20 transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+              }`}
           >
             <div className="p-6 pt-32 h-full overflow-y-auto space-y-6">
               {navConfig.links.map((link) => (
                 <a
                   key={`mobile-${link.id}`}
                   href={link.href}
-                  className={`block p-4 rounded-lg transition-colors duration-200 ${
-                    activeSection === link.id
+                  className={`block p-4 rounded-lg transition-colors duration-200 ${activeSection === link.id
                       ? `${navStyles.colors.mobileLinkActiveBg} ${navStyles.mobileMenuFont}`
                       : `text-white ${navStyles.colors.mobileLinkHoverBg} ${navStyles.mobileMenuFont}`
-                  }`}
+                    }`}
                   onClick={(e) => scrollToSection(e, link.id)}
                 >
                   {link.label}

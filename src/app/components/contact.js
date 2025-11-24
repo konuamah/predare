@@ -1,10 +1,14 @@
 "use client";
 import { useState } from "react";
+import PhoneInput from "react-phone-number-input";
+
+import "react-phone-number-input/style.css";
 
 export default function AppleForm() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     message: "",
   });
 
@@ -31,28 +35,42 @@ export default function AppleForm() {
   const inputBaseClasses =
     "w-full px-0 py-4 bg-transparent border-0 border-b-2 transition-all duration-300 ease-out focus:outline-none text-gray-900 placeholder-gray-500 text-lg font-light tracking-wide";
 
+
+
   const getInputClasses = (fieldName) => {
     const isFocused = focusedField === fieldName;
     const hasValue = formData[fieldName].length > 0;
 
-    return `${inputBaseClasses} ${
-      isFocused
-        ? "border-orange-500"
-        : hasValue
+    return `${inputBaseClasses} ${isFocused
+      ? "border-orange-500"
+      : hasValue
         ? "border-gray-400"
         : "border-gray-200 hover:border-gray-300"
-    }`;
+      }`;
   };
+
+  const getPhoneInputClasses = (fieldName) => {
+    const isFocused = focusedField === fieldName;
+    const hasValue = formData[fieldName].length > 0;
+
+    return `w-full px-4 py-3 bg-white border-2 rounded-lg transition-all duration-300 text-gray-900 placeholder-gray-500 focus:placeholder-gray-400 ${isFocused
+      ? "border-orange-500"
+      : hasValue
+        ? "border-gray-400"
+        : "border-gray-200 hover:border-gray-300"
+      }`;
+  };
+
+
 
   const getLabelClasses = (fieldName) => {
     const isFocused = focusedField === fieldName;
     const hasValue = formData[fieldName].length > 0;
 
-    return `absolute left-0 transition-all duration-300 ease-out pointer-events-none ${
-      isFocused || hasValue
-        ? "top-0 text-sm text-gray-600 font-medium"
-        : "top-4 text-lg text-gray-500 font-light"
-    } ${isFocused ? "text-orange-500" : ""}`;
+    return `absolute left-0 transition-all duration-300 ease-out pointer-events-none ${isFocused || hasValue
+      ? "top-0 text-sm text-gray-600 font-medium"
+      : "top-4 text-lg text-gray-500 font-light"
+      } ${isFocused ? "text-orange-500" : ""}`;
   };
 
   return (
@@ -107,6 +125,21 @@ export default function AppleForm() {
               <label htmlFor="email" className={getLabelClasses("email")}>
                 Email
               </label>
+            </div>
+
+            {/* Phone Field */}
+            <div className="relative">
+              <PhoneInput
+                international
+                countryCallingCodeEditable={false}
+                defaultCountry="US"
+                value={formData.phone}
+                onChange={(value) => setFormData({ ...formData, phone: value || "" })}
+                onFocus={() => handleFocus("phone")}
+                onBlur={handleBlur}
+                className={`phone-input ${getPhoneInputClasses("phone")}`}
+                required
+              />
             </div>
 
             {/* Message Field */}

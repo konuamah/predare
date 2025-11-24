@@ -30,6 +30,22 @@ const HeroCarousel = () => {
       subtext:
         "Connect With Your Community. We create photos, videos, and post templates that show off what makes your business unique.",
     },
+    {
+      id: 4,
+      image: "/white-2.png",
+      svg: "/web.svg",
+      headline: "Web Software Development",
+      subtext:
+        "Build Custom Websites and Apps. From responsive designs to powerful backends, we create digital solutions that drive your business forward.",
+    },
+    {
+      id: 5,
+      image: "/white-3.png",
+      svg: "/graphic-design.svg",
+      headline: "Graphic Design",
+      subtext:
+        "Stunning Visuals That Captivate. Logos, branding, and marketing materials that make your business stand out and leave a lasting impression.",
+    },
   ];
 
   useEffect(() => {

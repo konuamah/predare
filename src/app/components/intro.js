@@ -12,7 +12,7 @@ const FocusSection = () => {
         <div className="relative flex-1 w-full max-w-2xl xl:max-w-none">
           <div className="aspect-[622/630] sm:aspect-square lg:aspect-[4/5] xl:aspect-[622/630] w-full">
             <Image
-              alt="About section image"
+              alt="Client automation system"
               width={622}
               height={630}
               className="object-cover w-full h-full rounded-lg sm:rounded-xl lg:rounded-2xl"
@@ -28,27 +28,28 @@ const FocusSection = () => {
 
           {/* Main Title */}
           <h2 className={`${FONT_STYLES.heading} mb-4 sm:mb-6 text-2xl sm:text-3xl lg:text-4xl xl:text-5xl leading-tight`}>
-            Partnership, Not Promises
+            A System That Brings You Clients on Autopilot
           </h2>
 
           {/* Description */}
-     <p className={`${FONT_STYLES.body} mb-6 sm:mb-8 text-base sm:text-lg leading-relaxed`}>
-  We&apos;re based right here in Northern Virginia, and we work with small
-  businesses to build a real, sustainable online presence.
-</p>
-
+          <p className={`${FONT_STYLES.body} mb-6 sm:mb-8 text-base sm:text-lg leading-relaxed`}>
+            Business owners everywhere are tired of posting every day, running ads that don’t convert,
+            or hoping for referrals that never come. Our automated system removes the stress and helps
+            you get 15–100 new clients every month without chasing anyone. We blend custom web development
+            with stunning graphic design to create a cohesive online presence that drives results.
+          </p>
 
           {/* Why Choose Section */}
           <div>
             <h3 className={`${FONT_STYLES.subheading} mb-4 sm:mb-6 text-lg sm:text-xl lg:text-2xl`}>
-              Why Choose Predare:
+              Why Businesses Choose Us:
             </h3>
 
             <div className="flex flex-col gap-4 sm:gap-5">
               {[
-                "Local & Hands-On – We can stop by your business, take photos, and walk you through the setup.",
-                "Simple, Clear Packages – No long contracts. Just straightforward support that matches your budget.",
-                "Systems + Content – We set up the platforms you need and create content to keep them alive.",
+                "A Proven System built to bring you steady appointments and real paying clients.",
+                "Done-For-You Setup where we handle everything: offer creation, ads, landing pages, funnels, automation, custom web development, and stunning graphic design to support your growth.",
+                "Guaranteed Results with a 90‑day money‑back promise if you don’t get new clients." ,
               ].map((benefit, idx) => (
                 <div
                   key={idx}

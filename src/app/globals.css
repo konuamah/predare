@@ -3,13 +3,18 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --button-bg: #ff8a00;
+  --button-hover: #eb7d00;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Global button styles */
+.button {
+  background-color: var(--button-bg);
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: var(--button-hover);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,4 +28,32 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Phone input custom styles */
+.PhoneInput {
+  display: flex;
+  align-items: center;
+}
+
+.PhoneInputInput {
+  flex: 1;
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  margin-left: 8px;
+}
+
+.PhoneInputCountry {
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+}
+
+.PhoneInputCountrySelect {
+  border: none;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
 }
