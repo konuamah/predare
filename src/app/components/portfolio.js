@@ -19,6 +19,108 @@ const COLORS = {
     accent: "text-orange-500",
 };
 
+// --- NEW PORTFOLIO DATA CONSTANT ---
+const PORTFOLIO_DATA = [
+    {
+        title: "Web Development Projects",
+        mainDescription: "We create high-performance, responsive websites tailored to your business goals.",
+        mainImage: "/web.svg",
+        type: "subItems",
+        subItems: [
+            {
+                name: "E-commerce Store",
+                details: "Shopify & Custom Code",
+                image: "/web-dev.jpg"
+            },
+            {
+                name: "SaaS Dashboard",
+                details: "React & Next.js",
+                image: "/seo.png"
+            },
+        ],
+    },
+    {
+        title: "Graphic Design Gallery",
+        mainDescription: "Visual storytelling that captures your brand's essence and engages your audience.",
+        mainImage: "/graphic-design.svg",
+        type: "subItems",
+        subItems: [
+            {
+                name: "Brand Identity",
+                details: "Logo & Guidelines",
+                image: "/graphic-design.jpg"
+            },
+            {
+                name: "Social Media Kit",
+                details: "Instagram & LinkedIn",
+                image: "/social.png"
+            },
+        ],
+    },
+    {
+        title: "Client Testimonials",
+        mainDescription: "Don't just take our word for it. Here's what our partners have to say.",
+        mainImage: "/marketing.png",
+        type: "testimonials",
+        testimonials: [
+            {
+                quote: "Predare transformed our online presence. The new site increased our leads by 200% in just 3 months!",
+                client: "Sarah J., Marketing Director"
+            },
+            {
+                quote: "The branding work was exceptional. They captured our vision perfectly and delivered on time.",
+                client: "Mike T., CEO of TechFlow"
+            },
+            {
+                quote: "Professional, creative, and easy to work with. Highly recommend their web and design services.",
+                client: "Emily R., Founder"
+            },
+        ],
+    },
+];
+
+// --- HELPER FUNCTION TO RENDER DESCRIPTION BASED ON DATA TYPE ---
+const renderDescriptionContent = (item) => {
+    if (item.type === "subItems" && item.subItems) {
+        return (
+            <div className="space-y-6">
+                <p className="mb-4">{item.mainDescription}</p>
+                <div className="grid sm:grid-cols-2 gap-4">
+                    {item.subItems.map((sub, idx) => (
+                        <div key={idx} className="group cursor-pointer">
+                            <div className="relative h-32 rounded-lg overflow-hidden mb-2 border border-gray-100 shadow-sm">
+                                <Image src={sub.image} alt={sub.name} fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
+                            </div>
+                            <h5 className="font-bold text-sm">{sub.name}</h5>
+                            <p className="text-xs text-gray-500">{sub.details}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
+    if (item.type === "testimonials" && item.testimonials) {
+        return (
+            <div className="space-y-4">
+                <p className="mb-2">{item.mainDescription}</p>
+                <div className="space-y-3">
+                    {item.testimonials.map((test, idx) => (
+                        <div key={idx} className="bg-gray-50 p-4 rounded-xl border-l-4 border-orange-400">
+                            <p className="italic text-gray-700 text-sm mb-2">&quot;{test.quote}&quot;</p>
+                            <p className="font-bold text-xs text-gray-900">— {test.client}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
+    
+    // Fallback for generic content
+    return <p>{item.mainDescription}</p>;
+};
+// -------------------------------------------------------------
+
 export default function PortfolioSection() {
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [expandedIndex, setExpandedIndex] = useState(null);
@@ -42,88 +144,6 @@ export default function PortfolioSection() {
         return expandedIndex === index;
     };
 
-    const portfolioItems = [
-        {
-            title: "Web Development Projects",
-            description: (
-                <div className="space-y-6">
-                    <p className="mb-4">
-                        We create high-performance, responsive websites tailored to your business goals.
-                    </p>
-                    <div className="grid sm:grid-cols-2 gap-4">
-                        <div className="group cursor-pointer">
-                            <div className="relative h-32 rounded-lg overflow-hidden mb-2 border border-gray-100 shadow-sm">
-                                <Image src="/web-dev.jpg" alt="E-commerce Site" fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
-                            </div>
-                            <h5 className="font-bold text-sm">E-commerce Store</h5>
-                            <p className="text-xs text-gray-500">Shopify & Custom Code</p>
-                        </div>
-                        <div className="group cursor-pointer">
-                            <div className="relative h-32 rounded-lg overflow-hidden mb-2 border border-gray-100 shadow-sm">
-                                <Image src="/seo.png" alt="SaaS Dashboard" fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
-                            </div>
-                            <h5 className="font-bold text-sm">SaaS Dashboard</h5>
-                            <p className="text-xs text-gray-500">React & Next.js</p>
-                        </div>
-                    </div>
-                </div>
-            ),
-            mainImage: "/web.svg", // Using SVG as main cover for variety
-        },
-        {
-            title: "Graphic Design Gallery",
-            description: (
-                <div className="space-y-6">
-                    <p className="mb-4">
-                        Visual storytelling that captures your brand&apos;s essence and engages your audience.
-                    </p>
-                    <div className="grid sm:grid-cols-2 gap-4">
-                        <div className="group cursor-pointer">
-                            <div className="relative h-32 rounded-lg overflow-hidden mb-2 border border-gray-100 shadow-sm">
-                                <Image src="/graphic-design.jpg" alt="Brand Identity" fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
-                            </div>
-                            <h5 className="font-bold text-sm">Brand Identity</h5>
-                            <p className="text-xs text-gray-500">Logo & Guidelines</p>
-                        </div>
-                        <div className="group cursor-pointer">
-                            <div className="relative h-32 rounded-lg overflow-hidden mb-2 border border-gray-100 shadow-sm">
-                                <Image src="/social.png" alt="Social Media Assets" fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
-                            </div>
-                            <h5 className="font-bold text-sm">Social Media Kit</h5>
-                            <p className="text-xs text-gray-500">Instagram & LinkedIn</p>
-                        </div>
-                    </div>
-                </div>
-            ),
-            mainImage: "/graphic-design.svg",
-        },
-        {
-            title: "Client Testimonials",
-            description: (
-                <div className="space-y-4">
-                    <p className="mb-2">
-                        Don&apos;t just take our word for it. Here&apos;s what our partners have to say.
-                    </p>
-                    <div className="space-y-3">
-                        <div className="bg-gray-50 p-4 rounded-xl border-l-4 border-orange-400">
-                            <p className="italic text-gray-700 text-sm mb-2">&quot;Predare transformed our online presence. The new site increased our leads by 200% in just 3 months!&quot;</p>
-                            <p className="font-bold text-xs text-gray-900">— Sarah J., Marketing Director</p>
-                        </div>
-                        <div className="bg-gray-50 p-4 rounded-xl border-l-4 border-orange-400">
-                            <p className="italic text-gray-700 text-sm mb-2">&quot;The branding work was exceptional. They captured our vision perfectly and delivered on time.&quot;</p>
-                            <p className="font-bold text-xs text-gray-900">— Mike T., CEO of TechFlow</p>
-                        </div>
-                        <div className="bg-gray-50 p-4 rounded-xl border-l-4 border-orange-400">
-                            <p className="italic text-gray-700 text-sm mb-2">&quot;Professional, creative, and easy to work with. Highly recommend their web and design services.&quot;</p>
-                            <p className="font-bold text-xs text-gray-900">— Emily R., Founder</p>
-                        </div>
-                    </div>
-                </div>
-            ),
-            mainImage: "/marketing.png",
-        },
-    ];
-
     return (
         <section id="portfolio" className={`py-20 bg-white ${font.className}`}>
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
@@ -137,7 +157,7 @@ export default function PortfolioSection() {
 
                 {/* Accordion List */}
                 <div className="space-y-2">
-                    {portfolioItems.map((item, index) => (
+                    {PORTFOLIO_DATA.map((item, index) => ( // <-- Using the new constant here
                         <div
                             key={index}
                             onMouseEnter={() => setHoveredIndex(index)}
@@ -186,7 +206,8 @@ export default function PortfolioSection() {
                                         {/* Description / Content */}
                                         <div className="w-full lg:w-1/2 order-2 lg:order-1">
                                             <div className={FONT_STYLES.itemDescription}>
-                                                {item.description}
+                                                {/* DYNAMIC RENDERING HERE */}
+                                                {renderDescriptionContent(item)} 
                                             </div>
                                         </div>
 
