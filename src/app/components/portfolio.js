@@ -19,7 +19,7 @@ const COLORS = {
     accent: "text-orange-500",
 };
 
-// --- NEW PORTFOLIO DATA CONSTANT ---
+// --- MODIFIED PORTFOLIO DATA (Testimonials Removed) ---
 const PORTFOLIO_DATA = [
     {
         title: "Web Development Projects",
@@ -57,29 +57,9 @@ const PORTFOLIO_DATA = [
             },
         ],
     },
-    {
-        title: "Client Testimonials",
-        mainDescription: "Don't just take our word for it. Here's what our partners have to say.",
-        mainImage: "/marketing.png",
-        type: "testimonials",
-        testimonials: [
-            {
-                quote: "Predare transformed our online presence. The new site increased our leads by 200% in just 3 months!",
-                client: "Sarah J., Marketing Director"
-            },
-            {
-                quote: "The branding work was exceptional. They captured our vision perfectly and delivered on time.",
-                client: "Mike T., CEO of TechFlow"
-            },
-            {
-                quote: "Professional, creative, and easy to work with. Highly recommend their web and design services.",
-                client: "Emily R., Founder"
-            },
-        ],
-    },
 ];
 
-// --- HELPER FUNCTION TO RENDER DESCRIPTION BASED ON DATA TYPE ---
+// --- HELPER FUNCTION (Testimonial Logic Removed) ---
 const renderDescriptionContent = (item) => {
     if (item.type === "subItems" && item.subItems) {
         return (
@@ -100,22 +80,6 @@ const renderDescriptionContent = (item) => {
         );
     }
 
-    if (item.type === "testimonials" && item.testimonials) {
-        return (
-            <div className="space-y-4">
-                <p className="mb-2">{item.mainDescription}</p>
-                <div className="space-y-3">
-                    {item.testimonials.map((test, idx) => (
-                        <div key={idx} className="bg-gray-50 p-4 rounded-xl border-l-4 border-orange-400">
-                            <p className="italic text-gray-700 text-sm mb-2">&quot;{test.quote}&quot;</p>
-                            <p className="font-bold text-xs text-gray-900">— {test.client}</p>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        );
-    }
-    
     // Fallback for generic content
     return <p>{item.mainDescription}</p>;
 };
@@ -157,7 +121,7 @@ export default function PortfolioSection() {
 
                 {/* Accordion List */}
                 <div className="space-y-2">
-                    {PORTFOLIO_DATA.map((item, index) => ( // <-- Using the new constant here
+                    {PORTFOLIO_DATA.map((item, index) => (
                         <div
                             key={index}
                             onMouseEnter={() => setHoveredIndex(index)}
@@ -207,7 +171,7 @@ export default function PortfolioSection() {
                                         <div className="w-full lg:w-1/2 order-2 lg:order-1">
                                             <div className={FONT_STYLES.itemDescription}>
                                                 {/* DYNAMIC RENDERING HERE */}
-                                                {renderDescriptionContent(item)} 
+                                                {renderDescriptionContent(item)}
                                             </div>
                                         </div>
 

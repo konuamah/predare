@@ -14,13 +14,34 @@ export default function HeroSection() {
 
           {/* Left Column: Text & CTA */}
           <div>
-            <h1 className="text-5xl text-black t lg:text-[4rem] leading-[1.1] font-bold mb-6 text-primary">
-              Building Bridges Between You And Customers
+            <h1 className="text-4xl text-black  lg:text-[3rem] leading-[1.1] font-bold mb-6 text-primary">
+              Discover How To Get More Clients and Automate Your Business
+              Process with Us.
             </h1>
 
-            <p className="text-gray-500 text-lg mb-10 max-w-md leading-relaxed">
-              Business ideas at the right price. Challenge everything. Keeping advertising standards high. Research based advertising for the bulls.
-            </p>
+            {/* Business Owners Section */}
+            <div className="mb-8">
+              <h2 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-4">
+                Business Owners and Companies; here are two important questions:
+              </h2>
+              <ul className="space-y-3 text-gray-700">
+                <li className="flex items-start gap-3">
+                  <span className="text-primary font-bold mt-1">•</span>
+                  <span className="text-base lg:text-lg leading-relaxed">
+                    Do you want to get more clients to increase your revenue and boost your brand visibility online without breaking the bank?
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-primary font-bold mt-1">•</span>
+                  <span className="text-base lg:text-lg leading-relaxed">
+                    Do you desire to automate your entire business process? (Sales & Marketing Automations, Operations, Finance, HR & Management)
+                  </span>
+                </li>
+              </ul>
+              <p className="mt-4 text-base lg:text-lg text-gray-700 font-medium">
+                If you respond yes/nodding your head to any of the above questions, then our 3-step business automation process is for you.
+              </p>
+            </div>
 
             {/* CTA Area */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
@@ -33,7 +54,7 @@ export default function HeroSection() {
                   }
                 }}
               >
-                Get Started
+                Schedule Consultation Now
               </button>
 
               <div className="flex items-center gap-4">
@@ -52,9 +73,9 @@ export default function HeroSection() {
             <div className="absolute -top-10 -left-10 w-32 h-32 bg-dots [background-size:16px_16px] opacity-50"></div>
 
             {/* Main Image Container */}
-            <div className="relative rounded-[2rem] overflow-hidden h-[400px] lg:h-[450px] w-full shadow-lg">
+            <div className="relative overflow-hidden h-[400px] lg:h-[450px] w-full shadow-lg">
               <Image
-                src="/team.png"
+                src="/hero.jpg"
                 alt="Team collaboration"
                 fill
                 className="object-cover"

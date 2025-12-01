@@ -8,6 +8,9 @@ import Footer from "./components/footer";
 import ContactSection from "./components/contact";
 import PortfolioSection from "./components/portfolio";
 import HeroSection from "./components/main-hero";
+import WhoIsThisFor from "./components/who-is-this-for";
+import TestimonialsSection from "./components/testimonials";
+import VideoTestimonialsSection from "./components/video-testimonials";
 
 export default function Home() {
   return (
@@ -22,13 +25,19 @@ export default function Home() {
         <HeroSection />
       </div>
 
+      {/* Who Is This For Section */}
+      <WhoIsThisFor />
+
       {/* Hero goes here */}
       <HeroSlider />
 
       <CompanyIntro />
       <ServicesSection />
       <BenefitsSection />
-      <PortfolioSection />
+
+      <VideoTestimonialsSection />
+      <TestimonialsSection />
+
       <ContactSection />
       <Footer />
     </div>

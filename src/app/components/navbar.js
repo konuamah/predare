@@ -8,10 +8,10 @@ const navConfig = {
   logo: { src: "/Primeagle-logo-removebg-preview.png", alt: "Primeagle Logo" },
   links: [
     { id: "home", label: "Home", href: "#home" },
-    { id: "about", label: "About", href: "#about" },
+    { id: "about", label: "About", href: "/about", isExternal: true },
     { id: "services", label: "Services", href: "#services" },
     { id: "benefits", label: "Benefits", href: "#benefits" },
-    { id: "portfolio", label: "Portfolio", href: "#portfolio" },
+    { id: "portfolio", label: "Portfolio", href: "/portfolio", isExternal: true },
     { id: "contact", label: "Contact", href: "#contact" },
   ],
 };
@@ -125,22 +125,33 @@ const Navbar = () => {
             <div className="hidden lg:flex items-center justify-center flex-1">
               <div className="flex items-center gap-8">
                 {navConfig.links.map((link) => (
-                  <a
-                    key={link.id}
-                    href={link.href}
-                    className={`relative transition-all duration-200 ${activeSection === link.id
+                  link.isExternal ? (
+                    <Link
+                      key={link.id}
+                      href={link.href}
+                      className={`relative transition-all duration-200 ${navStyles.colors.linkDefault
+                        } hover:${navStyles.colors.linkHover} ${navStyles.menuFont}`}
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a
+                      key={link.id}
+                      href={link.href}
+                      className={`relative transition-all duration-200 ${activeSection === link.id
                         ? navStyles.colors.linkActive
                         : navStyles.colors.linkDefault
-                      } hover:${navStyles.colors.linkHover} ${navStyles.menuFont}`}
-                    onClick={(e) => scrollToSection(e, link.id)}
-                  >
-                    {link.label}
-                    {activeSection === link.id && (
-                      <div
-                        className={`absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 ${navStyles.colors.linkActiveIndicator} rounded-full`}
-                      />
-                    )}
-                  </a>
+                        } hover:${navStyles.colors.linkHover} ${navStyles.menuFont}`}
+                      onClick={(e) => scrollToSection(e, link.id)}
+                    >
+                      {link.label}
+                      {activeSection === link.id && (
+                        <div
+                          className={`absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 ${navStyles.colors.linkActiveIndicator} rounded-full`}
+                        />
+                      )}
+                    </a>
+                  )
                 ))}
               </div>
             </div>
@@ -186,17 +197,28 @@ const Navbar = () => {
           >
             <div className="p-6 pt-32 h-full overflow-y-auto space-y-6">
               {navConfig.links.map((link) => (
-                <a
-                  key={`mobile-${link.id}`}
-                  href={link.href}
-                  className={`block p-4 rounded-lg transition-colors duration-200 ${activeSection === link.id
+                link.isExternal ? (
+                  <Link
+                    key={`mobile-${link.id}`}
+                    href={link.href}
+                    className={`block p-4 rounded-lg transition-colors duration-200 text-white ${navStyles.colors.mobileLinkHoverBg} ${navStyles.mobileMenuFont}`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={`mobile-${link.id}`}
+                    href={link.href}
+                    className={`block p-4 rounded-lg transition-colors duration-200 ${activeSection === link.id
                       ? `${navStyles.colors.mobileLinkActiveBg} ${navStyles.mobileMenuFont}`
                       : `text-white ${navStyles.colors.mobileLinkHoverBg} ${navStyles.mobileMenuFont}`
-                    }`}
-                  onClick={(e) => scrollToSection(e, link.id)}
-                >
-                  {link.label}
-                </a>
+                      }`}
+                    onClick={(e) => scrollToSection(e, link.id)}
+                  >
+                    {link.label}
+                  </a>
+                )
               ))}
             </div>
           </div>

@@ -1,16 +1,16 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { Plus_Jakarta_Sans } from "next/font/google";
 
-// ----------------------
-// Config: Fonts & Colors
-// ----------------------
+const font = Plus_Jakarta_Sans({ subsets: ["latin"] });
+
 const FONT_STYLES = {
   heading:
     "font-sans font-bold text-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-[47px] leading-tight sm:leading-normal lg:leading-[71px]",
-  serviceTitle:
+  itemTitle:
     "text-black font-medium text-lg sm:text-xl md:text-2xl lg:text-3xl leading-tight",
-  serviceDescription:
+  itemDescription:
     "text-black text-sm sm:text-base md:text-lg leading-relaxed",
 };
 
@@ -19,125 +19,109 @@ const COLORS = {
   accent: "text-orange-500",
 };
 
-// ----------------------
-// Component
-// ----------------------
-const ServicesSection = () => {
-  const services = [
-    {
-      title: "Digital Presence Starter",
-      description: (
-        <>
-          <p className="mb-3 sm:mb-4">
-            Get your business found online with the essentials.
-          </p>
-          <ul className="list-disc pl-5 sm:pl-6 mt-2 sm:mt-3 space-y-1 sm:space-y-2 text-sm sm:text-base">
-            <li>Google Business Profile setup & optimization</li>
-            <li>Yelp and Facebook/Instagram business page setup</li>
-            <li>Basic website or landing page audit</li>
-            <li>
-              Quick training session so you (or staff) can manage updates
-            </li>
-          </ul>
-          <p className="mt-3 sm:mt-4 font-semibold text-sm sm:text-base">
-            Best for: new or small businesses who aren&apos;t showing up online yet.
-          </p>
-        </>
-      ),
-      imageUrl: "/seo.png",
-    },
-    {
-      title: "Social Kickstart",
-      description: (
-        <>
-          <p className="mb-3 sm:mb-4">
-            Build a strong social media foundation without the overwhelm.
-          </p>
-          <ul className="list-disc pl-5 sm:pl-6 mt-2 sm:mt-3 space-y-1 sm:space-y-2 text-sm sm:text-base">
-            <li>Setup or refresh of 2–3 social media platforms</li>
-            <li>One-month content calendar (templates + posting plan)</li>
-            <li>5 branded graphics or post templates</li>
-            <li>
-              Option to add on management if you want us to post for you
-            </li>
-          </ul>
-          <p className="mt-3 sm:mt-4 font-semibold text-sm sm:text-base">
-            Best for: businesses who want to connect with their community but
-            don&apos;t know what to post.
-          </p>
-        </>
-      ),
-      imageUrl: "/social.png",
-    },
-    {
-      title: "Web Development",
-      description: (
-        <>
-          <p className="mb-3 sm:mb-4">
-            Custom websites and applications that drive your business forward.
-          </p>
-          <ul className="list-disc pl-5 sm:pl-6 mt-2 sm:mt-3 space-y-1 sm:space-y-2 text-sm sm:text-base">
-            <li>Responsive website design and development</li>
-            <li>E-commerce platforms and booking systems</li>
-            <li>Custom web applications and dashboards</li>
-            <li>SEO optimization and performance tuning</li>
-          </ul>
-          <p className="mt-3 sm:mt-4 font-semibold text-sm sm:text-base">
-            Best for: businesses needing a professional online presence or custom digital tools.
-          </p>
-        </>
-      ),
-      imageUrl: "/web-dev.jpg",
-    },
-    {
-      title: "Graphic Design",
-      description: (
-        <>
-          <p className="mb-3 sm:mb-4">
-            Stunning visuals that make your brand unforgettable.
-          </p>
-          <ul className="list-disc pl-5 sm:pl-6 mt-2 sm:mt-3 space-y-1 sm:space-y-2 text-sm sm:text-base">
-            <li>Logo design and brand identity packages</li>
-            <li>Marketing materials and social media graphics</li>
-            <li>Print design (business cards, brochures, flyers)</li>
-            <li>Custom illustrations and digital artwork</li>
-          </ul>
-          <p className="mt-3 sm:mt-4 font-semibold text-sm sm:text-base">
-            Best for: businesses wanting to stand out with professional, eye-catching designs.
-          </p>
-        </>
-      ),
-      imageUrl: "/graphic-design.jpg",
-    },
-    {
-      title: "Growth Partner",
-      description: (
-        <>
-          <p className="mb-3 sm:mb-4">
-            Ongoing support so your business keeps showing up and growing.
-          </p>
-          <ul className="list-disc pl-5 sm:pl-6 mt-2 sm:mt-3 space-y-1 sm:space-y-2 text-sm sm:text-base">
-            <li>
-              Monthly social posting & content creation (photos + short videos)
-            </li>
-            <li>Simple paid ad campaigns to reach more local customers</li>
-            <li>
-              Monthly performance report with actionable insights
-            </li>
-            <li>
-              Priority support for updates or seasonal promotions
-            </li>
-          </ul>
-          <p className="mt-3 sm:mt-4 font-semibold text-sm sm:text-base">
-            Best for: businesses ready to scale their marketing with consistent
-            support.
-          </p>
-        </>
-      ),
-      imageUrl: "/growth.png",
-    },
-  ];
+// --- SERVICES DATA ---
+const SERVICES_DATA = [
+  {
+    title: "Online Business & Marketing Automation Set-Up",
+    mainDescription: "We help Businesses to get more customers & make more Sales by building their entire Sales & Marketing Automation system.",
+    mainImage: "/automation.jpg",
+    type: "simple",
+  },
+  {
+    title: "Paid Traffic Advertising (PPC, SEO, SEM, SMM)",
+    mainDescription: "We do market research, analyze data, leverage on the internet, AI and ML, to help Businesses get more clients for their products/services using Facebook & Instagram Ads, Google Ads, YouTube Ads, LinkedIn and TikTok.",
+    mainImage: "/seo.png",
+    type: "simple",
+  },
+  {
+    title: "Software Development",
+    mainDescription: "We code, write computer programming languages and develop custom Apps/Software's for businesses/companies.",
+    mainImage: "/web.svg",
+    type: "simple",
+  },
+  {
+    title: "Web Development",
+    mainDescription: "We Build and Design professional websites, sales funnels & landing pages for businesses/companies, drive traffic to it to deliver mind blowing sales/leads.",
+    mainImage: "/web.svg",
+    type: "subItems",
+    subItems: [
+      {
+        name: "E-commerce Store",
+        details: "Shopify & Custom Code",
+        image: "/web-dev.jpg"
+      },
+      {
+        name: "SaaS Dashboard",
+        details: "React & Next.js",
+        image: "/seo.png"
+      },
+    ],
+  },
+  {
+    title: "Graphics Designs & Branding",
+    mainDescription: "We make beautiful designs. Look simple but attractive. Ranges from Bill Boards, Flyers, Banners, Posters, Business Cards, Wedding Cards, etc.",
+    mainImage: "/graphic-design.svg",
+    type: "subItems",
+    subItems: [
+      {
+        name: "Brand Identity",
+        details: "Logo & Guidelines",
+        image: "/graphic-design.jpg"
+      },
+      {
+        name: "Social Media Kit",
+        details: "Instagram & LinkedIn",
+        image: "/social.png"
+      },
+    ],
+  },
+  {
+    title: "Website Audit",
+    mainDescription: "We audit your already existing websites and make them convert.",
+    mainImage: "/web.svg",
+    type: "simple",
+  },
+  {
+    title: "Email Marketing & Automation",
+    mainDescription: "We generate Leads, set-up a follow up system & convert them into sales using our email marketing automations.",
+    mainImage: "/seo.png",
+    type: "simple",
+  },
+  {
+    title: "Copywriting",
+    mainDescription: "We write & craft high converting sales copy for businesses/firms.",
+    mainImage: "/copywriting.png",
+    type: "simple",
+  },
+];
 
+// --- HELPER FUNCTION (Testimonial Logic Removed) ---
+const renderDescriptionContent = (item) => {
+  if (item.type === "subItems" && item.subItems) {
+    return (
+      <div className="space-y-6">
+        <p className="mb-4">{item.mainDescription}</p>
+        <div className="grid sm:grid-cols-2 gap-4">
+          {item.subItems.map((sub, idx) => (
+            <div key={idx} className="group cursor-pointer">
+              <div className="relative h-32 rounded-lg overflow-hidden mb-2 border border-gray-100 shadow-sm">
+                <Image src={sub.image} alt={sub.name} fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
+              </div>
+              <h5 className="font-bold text-sm">{sub.name}</h5>
+              <p className="text-xs text-gray-500">{sub.details}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Fallback for generic content
+  return <p>{item.mainDescription}</p>;
+};
+// -------------------------------------------------------------
+
+export default function ServicesSection() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [isClient, setIsClient] = useState(false);
@@ -146,7 +130,7 @@ const ServicesSection = () => {
     setIsClient(true);
   }, []);
 
-  const handleServiceClick = (index) => {
+  const handleItemClick = (index) => {
     if (isClient && window.innerWidth < 1024) {
       setExpandedIndex(expandedIndex === index ? null : index);
     }
@@ -154,7 +138,6 @@ const ServicesSection = () => {
 
   const isExpanded = (index) => {
     if (!isClient) return false;
-
     if (window.innerWidth >= 1024) {
       return hoveredIndex === index;
     }
@@ -162,48 +145,45 @@ const ServicesSection = () => {
   };
 
   return (
-    <section id="services" className="relative mt-12 sm:mt-16 md:mt-20 lg:mt-24 xl:mt-28">
-      <div className="relative container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="services" className={`py-20 bg-white ${font.className}`}>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         {/* Section Header */}
-        <div className="mb-6 sm:mb-8 md:mb-12 lg:mb-16 text-center lg:text-left">
-          <h2 className={`${FONT_STYLES.heading} max-w-4xl mx-auto lg:mx-0`}>
-            Packages to Build and Grow Your Online Presence
-          </h2>
+        <div className="mb-12 text-center lg:text-left">
+          <h2 className={FONT_STYLES.heading}>Our Services</h2>
+          <p className="mt-4 text-gray-500 text-lg max-w-2xl lg:mx-0 mx-auto">
+            Comprehensive digital solutions to help your business grow and succeed in the modern marketplace.
+          </p>
         </div>
 
-        {/* Services List */}
-        <div className="space-y-1 sm:space-y-2 md:space-y-4">
-          {services.map((service, index) => (
+        {/* Accordion List */}
+        <div className="space-y-2">
+          {SERVICES_DATA.map((item, index) => (
             <div
               key={index}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
-              onClick={() => handleServiceClick(index)}
-              className={`cursor-pointer border-b py-4 sm:py-6 md:py-8 last:border-b-0 ${COLORS.borderGray} transition-all duration-300 hover:bg-gray-50/50 rounded-lg hover:shadow-sm`}
+              onClick={() => handleItemClick(index)}
+              className={`cursor-pointer border-b py-6 last:border-b-0 ${COLORS.borderGray} transition-all duration-300 hover:bg-gray-50/50 rounded-lg`}
             >
-              {/* Service Header */}
-              <div className="flex items-center justify-between px-2 sm:px-4 lg:px-6">
-                <div className="min-w-0 flex-1 pr-3 sm:pr-4">
-                  <h3
-                    className={`${FONT_STYLES.serviceTitle} transition-colors duration-300 ${
-                      isExpanded(index) ? "text-orange-500" : "text-black"
+              {/* Header */}
+              <div className="flex items-center justify-between px-4 sm:px-6">
+                <h3
+                  className={`${FONT_STYLES.itemTitle} transition-colors duration-300 ${isExpanded(index) ? "text-orange-500" : "text-black"
                     }`}
-                  >
-                    {service.title}
-                  </h3>
-                </div>
+                >
+                  {item.title}
+                </h3>
                 <div
-                  className={`flex-shrink-0 p-1 sm:p-2 transition-transform duration-300 ${
-                    isExpanded(index) ? "rotate-45" : ""
-                  } hover:bg-orange-100 rounded-full`}
+                  className={`flex-shrink-0 p-2 transition-transform duration-300 ${isExpanded(index) ? "rotate-45" : ""
+                    } hover:bg-orange-100 rounded-full`}
                 >
                   <svg
-                    width="18"
-                    height="18"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className={`${COLORS.accent} sm:w-5 sm:h-5 md:w-6 md:h-6`}
+                    className={`${COLORS.accent}`}
                   >
                     <path
                       d="M12 5V19M5 12H19"
@@ -216,32 +196,29 @@ const ServicesSection = () => {
                 </div>
               </div>
 
-              {/* Expandable Content */}
+              {/* Expanded Content */}
               <div
-                className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                  isExpanded(index) ? "max-h-[2000px] opacity-100 mt-4 sm:mt-6" : "max-h-0 opacity-0"
-                }`}
+                className={`overflow-hidden transition-all duration-500 ease-in-out ${isExpanded(index) ? "max-h-[2000px] opacity-100 mt-6" : "max-h-0 opacity-0"
+                  }`}
               >
-                <div className="px-2 sm:px-4 lg:px-6 pt-2 sm:pt-4">
-                  <div className="flex flex-col lg:flex-row items-start gap-4 sm:gap-6 md:gap-8 lg:gap-12">
-                    {/* Content */}
+                <div className="px-4 sm:px-6 pb-6">
+                  <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-12">
+                    {/* Description / Content */}
                     <div className="w-full lg:w-1/2 order-2 lg:order-1">
-                      <div className={FONT_STYLES.serviceDescription}>
-                        {service.description}
+                      <div className={FONT_STYLES.itemDescription}>
+                        {/* DYNAMIC RENDERING HERE */}
+                        {renderDescriptionContent(item)}
                       </div>
                     </div>
-                    
-                    {/* Image */}
+
+                    {/* Main Image */}
                     <div className="w-full lg:w-1/2 order-1 lg:order-2">
-                      <div className="relative overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                      <div className="relative overflow-hidden rounded-2xl shadow-lg h-64 sm:h-80 lg:h-96 bg-gray-100">
                         <Image
-                          src={service.imageUrl}
-                          alt={`${service.title} visual representation`}
-                          width={600}
-                          height={400}
-                          className="w-full h-40 sm:h-48 md:h-56 lg:h-64 xl:h-72 object-cover transition-transform duration-300 hover:scale-105"
-                          priority={index < 2}
-                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 600px"
+                          src={item.mainImage}
+                          alt={`${item.title} Showcase`}
+                          fill
+                          className="object-cover"
                         />
                       </div>
                     </div>
@@ -251,19 +228,7 @@ const ServicesSection = () => {
             </div>
           ))}
         </div>
-
-        {/* Custom Packages Note */}
-        <div className="mt-8 sm:mt-10 md:mt-12 lg:mt-16 text-center">
-          <div className=" p-4 sm:p-6 md:p-8 max-w-4xl mx-auto">
-            <p className="text-black text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed">
-              <span className="font-semibold text-orange-600">Custom packages available</span>{" "}
-              on request — we&apos;ll build something that fits your goals and budget.
-            </p>
-          </div>
-        </div>
       </div>
     </section>
   );
-};
-
-export default ServicesSection;
+}

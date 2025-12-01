@@ -15,8 +15,8 @@ const FocusSection = () => {
               alt="Client automation system"
               width={622}
               height={630}
-              className="object-cover w-full h-full rounded-lg sm:rounded-xl lg:rounded-2xl"
-              src="/trust.png"
+              className="object-cover w-full h-full"
+              src="/start.jpg"
             />
           </div>
         </div>
@@ -24,32 +24,24 @@ const FocusSection = () => {
         {/* Content Container */}
         <div className="flex-1 w-full max-w-2xl xl:max-w-none flex flex-col justify-center">
           {/* Header */}
-          <p className={`${FONT_STYLES.accent} mb-2 sm:mb-3`}>Our Focus</p>
+          <p className={`${FONT_STYLES.accent} mb-2 sm:mb-3`}>Our Process</p>
 
           {/* Main Title */}
           <h2 className={`${FONT_STYLES.heading} mb-4 sm:mb-6 text-2xl sm:text-3xl lg:text-4xl xl:text-5xl leading-tight`}>
-            A System That Brings You Clients on Autopilot
+            How Does It Work?
           </h2>
 
           {/* Description */}
-          <p className={`${FONT_STYLES.body} mb-6 sm:mb-8 text-base sm:text-lg leading-relaxed`}>
-            Business owners everywhere are tired of posting every day, running ads that don’t convert,
-            or hoping for referrals that never come. Our automated system removes the stress and helps
-            you get 15–100 new clients every month without chasing anyone. We blend custom web development
-            with stunning graphic design to create a cohesive online presence that drives results.
-          </p>
 
-          {/* Why Choose Section */}
+
+          {/* Steps Section */}
           <div>
-            <h3 className={`${FONT_STYLES.subheading} mb-4 sm:mb-6 text-lg sm:text-xl lg:text-2xl`}>
-              Why Businesses Choose Us:
-            </h3>
 
             <div className="flex flex-col gap-4 sm:gap-5">
               {[
-                "A Proven System built to bring you steady appointments and real paying clients.",
-                "Done-For-You Setup where we handle everything: offer creation, ads, landing pages, funnels, automation, custom web development, and stunning graphic design to support your growth.",
-                "Guaranteed Results with a 90‑day money‑back promise if you don’t get new clients." ,
+                "Step One: Book a one-on-one consulting call with our Experts",
+                "Step Two: Have a strategic meeting with our team. We will have a 360 view of your business/company and prescribe a custom digital solution to make your business run on auto-pilot (gain more clients, increase revenue and boost brand visibility online).",
+                "Step Three: Contract agreement, commencement and deployment.",
               ].map((benefit, idx) => (
                 <div
                   key={idx}
