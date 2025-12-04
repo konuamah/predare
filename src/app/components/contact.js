@@ -7,15 +7,75 @@ import "react-phone-number-input/style.css";
 export default function AppleForm() {
   const [formData, setFormData] = useState({
     name: "",
+    company: "",
     email: "",
     phone: "",
-    message: "",
+    services: "",
+    projectDetails: "",
   });
 
   const [focusedField, setFocusedField] = useState(null);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const servicesOptions = [
+    { value: "", label: "Select services you're interested in..." },
+    { value: "web-development", label: "Web Development" },
+    { value: "mobile-apps", label: "Mobile App Development" },
+    { value: "seo", label: "Search Engine Optimization (SEO)" },
+    { value: "social-media", label: "Social Media Marketing" },
+    { value: "email-marketing", label: "Email Marketing" },
+    { value: "graphic-design", label: "Graphic Design" },
+    { value: "copywriting", label: "Copywriting & Content" },
+    { value: "analytics", label: "Analytics & Reporting" },
+    { value: "automation", label: "Marketing Automation" },
+    { value: "consulting", label: "Digital Marketing Consulting" },
+    { value: "other", label: "Other / Custom Needs" },
+  ];
+
+  const formFields = [
+    {
+      name: "name",
+      type: "text",
+      label: "Name",
+      required: true,
+      multiline: false,
+    },
+    {
+      name: "company",
+      type: "text",
+      label: "Company Name",
+      required: false,
+      multiline: false,
+    },
+    {
+      name: "email",
+      type: "email",
+      label: "Email",
+      required: true,
+      multiline: false,
+    },
+    {
+      name: "services",
+      type: "select",
+      label: "Services Interested In",
+      required: true,
+      multiline: false,
+      options: servicesOptions,
+    },
+    {
+      name: "projectDetails",
+      type: "textarea",
+      label: "Project Details",
+      required: true,
+      multiline: true,
+    },
+  ];
+
+  const handleChange = (e, isPhone = false) => {
+    if (isPhone) {
+      setFormData({ ...formData, phone: e || "" });
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -42,6 +102,18 @@ export default function AppleForm() {
     const hasValue = formData[fieldName].length > 0;
 
     return `${inputBaseClasses} ${isFocused
+      ? "border-orange-500"
+      : hasValue
+        ? "border-gray-400"
+        : "border-gray-200 hover:border-gray-300"
+      }`;
+  };
+
+  const getSelectClasses = (fieldName) => {
+    const isFocused = focusedField === fieldName;
+    const hasValue = formData[fieldName].length > 0;
+
+    return `w-full px-0 py-4 bg-transparent border-0 border-b-2 transition-all duration-300 ease-out focus:outline-none text-gray-900 text-lg font-light tracking-wide appearance-none cursor-pointer ${isFocused
       ? "border-orange-500"
       : hasValue
         ? "border-gray-400"
@@ -89,43 +161,83 @@ export default function AppleForm() {
 
           {/* ✅ Wrap inputs in <form> */}
           <form onSubmit={handleSubmit} className="space-y-12">
-            {/* Name Field */}
-            <div className="relative">
-              <input
-                type="text"
-                name="name"
-                id="name"
-                value={formData.name}
-                onChange={handleChange}
-                onFocus={() => handleFocus("name")}
-                onBlur={handleBlur}
-                required
-                className={getInputClasses("name")}
-                placeholder=""
-              />
-              <label htmlFor="name" className={getLabelClasses("name")}>
-                Name
-              </label>
-            </div>
-
-            {/* Email Field */}
-            <div className="relative">
-              <input
-                type="email"
-                name="email"
-                id="email"
-                value={formData.email}
-                onChange={handleChange}
-                onFocus={() => handleFocus("email")}
-                onBlur={handleBlur}
-                required
-                className={getInputClasses("email")}
-                placeholder=""
-              />
-              <label htmlFor="email" className={getLabelClasses("email")}>
-                Email
-              </label>
-            </div>
+            {formFields.map((field) => (
+              <div key={field.name} className={field.type === "select" ? "" : "relative"}>
+                {field.type === "select" ? (
+                  <div className="relative">
+                    <label htmlFor={field.name} className="block text-sm text-gray-600 font-medium mb-2">
+                      {field.label}
+                      {field.required && <span className="text-orange-500 ml-1">*</span>}
+                    </label>
+                    <select
+                      name={field.name}
+                      id={field.name}
+                      value={formData[field.name]}
+                      onChange={handleChange}
+                      onFocus={() => handleFocus(field.name)}
+                      onBlur={handleBlur}
+                      required={field.required}
+                      className={getSelectClasses(field.name)}
+                    >
+                      {field.options.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="absolute right-0 bottom-4 pointer-events-none">
+                      <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+                ) : field.type === "textarea" ? (
+                  <>
+                    <textarea
+                      name={field.name}
+                      id={field.name}
+                      rows="1"
+                      value={formData[field.name]}
+                      onChange={handleChange}
+                      onFocus={() => handleFocus(field.name)}
+                      onBlur={handleBlur}
+                      required={field.required}
+                      className={`${getInputClasses(
+                        field.name
+                      )} resize-none min-h-[60px] overflow-hidden`}
+                      placeholder=""
+                      style={{ height: "auto" }}
+                      onInput={(e) => {
+                        e.target.style.height = "auto";
+                        e.target.style.height = Math.max(60, e.target.scrollHeight) + "px";
+                      }}
+                      aria-multiline="true"
+                    />
+                    <label htmlFor={field.name} className={getLabelClasses(field.name)}>
+                      {field.label}
+                    </label>
+                  </>
+                ) : (
+                  <>
+                    <input
+                      type={field.type}
+                      name={field.name}
+                      id={field.name}
+                      value={formData[field.name]}
+                      onChange={handleChange}
+                      onFocus={() => handleFocus(field.name)}
+                      onBlur={handleBlur}
+                      required={field.required}
+                      className={getInputClasses(field.name)}
+                      placeholder=""
+                    />
+                    <label htmlFor={field.name} className={getLabelClasses(field.name)}>
+                      {field.label}
+                    </label>
+                  </>
+                )}
+              </div>
+            ))}
 
             {/* Phone Field */}
             <div className="relative">
@@ -142,41 +254,13 @@ export default function AppleForm() {
               />
             </div>
 
-            {/* Message Field */}
-            <div className="relative">
-              <textarea
-                name="message"
-                id="message"
-                rows="1"
-                value={formData.message}
-                onChange={handleChange}
-                onFocus={() => handleFocus("message")}
-                onBlur={handleBlur}
-                required
-                className={`${getInputClasses(
-                  "message"
-                )} resize-none min-h-[60px] overflow-hidden`}
-                placeholder=""
-                style={{ height: "auto" }}
-                onInput={(e) => {
-                  e.target.style.height = "auto";
-                  e.target.style.height =
-                    Math.max(60, e.target.scrollHeight) + "px";
-                }}
-                aria-multiline="true"
-              />
-              <label htmlFor="message" className={getLabelClasses("message")}>
-                Message
-              </label>
-            </div>
-
             {/* Submit Button */}
             <div className="pt-8">
               <button
                 type="submit"
                 className="w-full bg-orange-600 hover:bg-orange-700 text-white font-medium text-lg py-4 px-8 rounded-full transition-all duration-200 ease-out transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-orange-600/25 hover:shadow-xl hover:shadow-orange-600/30"
               >
-                Send Message
+             Book Appointment
               </button>
             </div>
           </form>

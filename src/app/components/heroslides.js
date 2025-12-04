@@ -59,7 +59,7 @@ const HeroCarousel = () => {
 
   return (
     <section
-      id="home"
+    
       className="relative w-full min-h-[400px] sm:min-h-[500px] md:min-h-[600px] lg:min-h-[650px] mt-16 sm:mt-20 md:mt-28 flex items-center justify-center overflow-hidden"
     >
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6">

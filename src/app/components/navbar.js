@@ -34,11 +34,41 @@ const navStyles = {
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [currentPath, setCurrentPath] = useState("");
   const navRef = useRef(null);
 
-  // 🔹 Track active section
+  // 🔹 Track current route for page-based highlighting (e.g. /about, /portfolio)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const updatePath = () => {
+        const newPath = window.location.pathname;
+        const newHash = window.location.hash;
+        console.log('🔷 Navbar: Route change detected');
+        console.log('  → pathname:', newPath);
+        console.log('  → hash:', newHash);
+        console.log('  → full URL:', window.location.href);
+        setCurrentPath(newPath);
+        console.log('  → currentPath state updated to:', newPath);
+      };
+      
+      updatePath(); // Set initial path
+      console.log('🔷 Navbar: Initial mount - path set to:', window.location.pathname);
+      
+      window.addEventListener("popstate", updatePath);
+      
+      return () => window.removeEventListener("popstate", updatePath);
+    }
+  }, []);
+
+  // 🔹 Track active section (only on homepage)
   useEffect(() => {
     const handleScroll = () => {
+      // 🚫 Disable scroll tracking if we're NOT on the homepage
+      if (currentPath && currentPath !== '/') {
+        console.log('📜 Navbar: Scroll tracking DISABLED (not on homepage, currentPath:', currentPath + ')');
+        return;
+      }
+
       const navHeight = 120;
       const offset = navHeight + 50;
 
@@ -60,7 +90,17 @@ const Navbar = () => {
 
       if (window.scrollY < 100) currentSection = "home";
 
-      setActiveSection(currentSection);
+      console.log('📜 Navbar: Scroll handler fired (homepage)');
+      console.log('  → scrollY:', window.scrollY);
+      console.log('  → detected section:', currentSection);
+      console.log('  → previous activeSection:', activeSection);
+      
+      if (currentSection !== activeSection) {
+        setActiveSection(currentSection);
+        console.log('  ✅ activeSection updated to:', currentSection);
+      } else {
+        console.log('  ⏭️  No change - activeSection already:', currentSection);
+      }
     };
 
     handleScroll();
@@ -78,7 +118,7 @@ const Navbar = () => {
 
     window.addEventListener("scroll", throttledHandleScroll);
     return () => window.removeEventListener("scroll", throttledHandleScroll);
-  }, []); // ✅ no warning now
+  }, [activeSection, currentPath]); // ✅ Added currentPath to deps
 
   // 🔹 Close mobile menu on Escape
   useEffect(() => {
@@ -103,6 +143,35 @@ const Navbar = () => {
       const navHeight = 120;
       const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
       window.scrollTo({ top: elementPosition - navHeight, behavior: "smooth" });
+    } else {
+      // Navigate to homepage if section doesn't exist on current page
+      window.location.href = '/#' + sectionId;
+    }
+  };
+
+  // 🔍 Debug logging for link rendering
+  const isLinkActive = (link) => {
+    const isOnHomepage = !currentPath || currentPath === '/';
+    
+    if (link.isExternal) {
+      const isActive = currentPath === link.href;
+      console.log(`🔗 External link "${link.label}":`, {
+        href: link.href,
+        currentPath,
+        isActive
+      });
+      return isActive;
+    } else {
+      // Internal links only use activeSection when on homepage
+      const isActive = isOnHomepage && activeSection === link.id;
+      console.log(`🔗 Internal link "${link.label}":`, {
+        id: link.id,
+        activeSection,
+        isOnHomepage,
+        currentPath,
+        isActive
+      });
+      return isActive;
     }
   };
 
@@ -124,13 +193,18 @@ const Navbar = () => {
             {/* Desktop Menu */}
             <div className="hidden lg:flex items-center justify-center flex-1">
               <div className="flex items-center gap-8">
-                {navConfig.links.map((link) => (
-                  link.isExternal ? (
+                {navConfig.links.map((link) => {
+                  const isActive = isLinkActive(link);
+                  
+                  return link.isExternal ? (
                     <Link
                       key={link.id}
                       href={link.href}
-                      className={`relative transition-all duration-200 ${navStyles.colors.linkDefault
-                        } hover:${navStyles.colors.linkHover} ${navStyles.menuFont}`}
+                      className={`relative transition-all duration-200 ${
+                        isActive
+                          ? navStyles.colors.linkActive
+                          : navStyles.colors.linkDefault
+                      } hover:${navStyles.colors.linkHover} ${navStyles.menuFont}`}
                     >
                       {link.label}
                     </Link>
@@ -138,21 +212,22 @@ const Navbar = () => {
                     <a
                       key={link.id}
                       href={link.href}
-                      className={`relative transition-all duration-200 ${activeSection === link.id
-                        ? navStyles.colors.linkActive
-                        : navStyles.colors.linkDefault
-                        } hover:${navStyles.colors.linkHover} ${navStyles.menuFont}`}
+                      className={`relative transition-all duration-200 ${
+                        isActive
+                          ? navStyles.colors.linkActive
+                          : navStyles.colors.linkDefault
+                      } hover:${navStyles.colors.linkHover} ${navStyles.menuFont}`}
                       onClick={(e) => scrollToSection(e, link.id)}
                     >
                       {link.label}
-                      {activeSection === link.id && (
+                      {isActive && (
                         <div
                           className={`absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 ${navStyles.colors.linkActiveIndicator} rounded-full`}
                         />
                       )}
                     </a>
-                  )
-                ))}
+                  );
+                })}
               </div>
             </div>
 
@@ -196,12 +271,21 @@ const Navbar = () => {
               }`}
           >
             <div className="p-6 pt-32 h-full overflow-y-auto space-y-6">
-              {navConfig.links.map((link) => (
-                link.isExternal ? (
+              {navConfig.links.map((link) => {
+                const isOnHomepage = !currentPath || currentPath === '/';
+                const isActive = link.isExternal 
+                  ? currentPath === link.href 
+                  : isOnHomepage && activeSection === link.id;
+                
+                return link.isExternal ? (
                   <Link
                     key={`mobile-${link.id}`}
                     href={link.href}
-                    className={`block p-4 rounded-lg transition-colors duration-200 text-white ${navStyles.colors.mobileLinkHoverBg} ${navStyles.mobileMenuFont}`}
+                    className={`block p-4 rounded-lg transition-colors duration-200 ${
+                      isActive
+                        ? `${navStyles.colors.mobileLinkActiveBg} ${navStyles.mobileMenuFont}`
+                        : `text-white ${navStyles.colors.mobileLinkHoverBg} ${navStyles.mobileMenuFont}`
+                    }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {link.label}
@@ -210,16 +294,17 @@ const Navbar = () => {
                   <a
                     key={`mobile-${link.id}`}
                     href={link.href}
-                    className={`block p-4 rounded-lg transition-colors duration-200 ${activeSection === link.id
-                      ? `${navStyles.colors.mobileLinkActiveBg} ${navStyles.mobileMenuFont}`
-                      : `text-white ${navStyles.colors.mobileLinkHoverBg} ${navStyles.mobileMenuFont}`
-                      }`}
+                    className={`block p-4 rounded-lg transition-colors duration-200 ${
+                      isActive
+                        ? `${navStyles.colors.mobileLinkActiveBg} ${navStyles.mobileMenuFont}`
+                        : `text-white ${navStyles.colors.mobileLinkHoverBg} ${navStyles.mobileMenuFont}`
+                    }`}
                     onClick={(e) => scrollToSection(e, link.id)}
                   >
                     {link.label}
                   </a>
-                )
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>

@@ -36,7 +36,7 @@ export default function Home() {
       <BenefitsSection />
 
       <VideoTestimonialsSection />
-      <TestimonialsSection />
+   
 
       <ContactSection />
       <Footer />

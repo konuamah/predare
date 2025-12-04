@@ -8,7 +8,7 @@ const font = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
 export default function HeroSection() {
   return (
-    <div className={`min-h-screen bg-cream text-primary ${font.className}`}>
+    <div id="home" className={`min-h-screen bg-cream text-primary ${font.className}`}>
       <main className="container mx-auto px-6 mt-12 lg:mt-20">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
