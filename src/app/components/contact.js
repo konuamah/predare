@@ -152,10 +152,10 @@ export default function AppleForm() {
           {/* Header */}
           <div className="text-center mb-12">
             <h2 className="text-4xl font-light tracking-tight text-gray-900 mb-4">
-              Get in Touch
+          Schedule Consultation
             </h2>
             <p className="text-xl font-light text-gray-600 leading-relaxed max-w-md mx-auto">
-              Fill out the form below and we&apos;ll get back to you shortly.
+              Fill out the form below to book an appointment with us.
             </p>
           </div>
 
