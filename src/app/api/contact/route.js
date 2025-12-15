@@ -14,16 +14,30 @@ export async function POST(request) {
       );
     }
 
-    // Create transporter - configure with your email service
-    // For Gmail, you'll need to use an App Password
-    // For other services, adjust the configuration accordingly
+    // Validate environment variables
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASSWORD) {
+      console.error("Missing SMTP credentials in environment variables");
+      return NextResponse.json(
+        { error: "Email service not configured. Please contact the administrator." },
+        { status: 500 }
+      );
+    }
+
+    // Create transporter for Gmail
+    // Note: For Gmail, you MUST use an App Password, not your regular password
+    // Generate App Password: https://myaccount.google.com/apppasswords
+    // Make sure 2-Step Verification is enabled first
     const transporter = nodemailer.createTransport({
+      service: "gmail",
       host: process.env.SMTP_HOST || "smtp.gmail.com",
       port: parseInt(process.env.SMTP_PORT || "587"),
-      secure: false, // true for 465, false for other ports
+      secure: false, // true for 465, false for 587
       auth: {
         user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASSWORD,
+        pass: process.env.SMTP_PASSWORD, // Use App Password here
+      },
+      tls: {
+        rejectUnauthorized: false, // For Gmail, this helps with certificate issues
       },
     });
 
