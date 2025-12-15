@@ -9,13 +9,13 @@ export default function VideoTestimonialsSection() {
             name: "Dr Mina Quadar",
             title: "Founder",
             company: "Wellness Guard - France",
-            videoSrc: "/test2.mp4"
+            videoSrc: "/test1.mp4"
         },
         {
             name: "Mr Angenu Kofi Benjamin",
             title: "CEO",
             company: "Forever Champion Health Centre",
-            videoSrc: "/test1.mp4"
+            videoSrc: "/test2.mp4"
         },
 
     ];

@@ -15,6 +15,9 @@ export default function AppleForm() {
   });
 
   const [focusedField, setFocusedField] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
+  const [errorMessage, setErrorMessage] = useState("");
 
   const servicesOptions = [
     { value: "", label: "Select services you're interested in..." },
@@ -78,10 +81,43 @@ export default function AppleForm() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // 🔮 You can replace this with fetch("/api/contact", { method: "POST", body: JSON.stringify(formData) })
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send message");
+      }
+
+      setSubmitStatus("success");
+      // Reset form
+      setFormData({
+        name: "",
+        company: "",
+        email: "",
+        phone: "",
+        services: "",
+        projectDetails: "",
+      });
+    } catch (error) {
+      setSubmitStatus("error");
+      setErrorMessage(error.message || "Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleFocus = (fieldName) => {
@@ -254,13 +290,33 @@ export default function AppleForm() {
               />
             </div>
 
+            {/* Status Messages */}
+            {submitStatus === "success" && (
+              <div className="pt-4">
+                <div className="bg-green-50 border border-green-200 text-green-800 px-6 py-4 rounded-lg">
+                  <p className="font-medium">Thank you!</p>
+                  <p className="text-sm mt-1">Your consultation request has been sent successfully. We&apos;ll get back to you soon.</p>
+                </div>
+              </div>
+            )}
+
+            {submitStatus === "error" && (
+              <div className="pt-4">
+                <div className="bg-red-50 border border-red-200 text-red-800 px-6 py-4 rounded-lg">
+                  <p className="font-medium">Error</p>
+                  <p className="text-sm mt-1">{errorMessage}</p>
+                </div>
+              </div>
+            )}
+
             {/* Submit Button */}
             <div className="pt-8">
               <button
                 type="submit"
-                className="w-full bg-orange-600 hover:bg-orange-700 text-white font-medium text-lg py-4 px-8 rounded-full transition-all duration-200 ease-out transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-orange-600/25 hover:shadow-xl hover:shadow-orange-600/30"
+                disabled={isSubmitting}
+                className="w-full bg-orange-600 hover:bg-orange-700 disabled:bg-orange-400 disabled:cursor-not-allowed text-white font-medium text-lg py-4 px-8 rounded-full transition-all duration-200 ease-out transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-orange-600/25 hover:shadow-xl hover:shadow-orange-600/30"
               >
-             Book Appointment
+                {isSubmitting ? "Sending..." : "Book Appointment"}
               </button>
             </div>
           </form>

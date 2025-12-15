@@ -32,10 +32,26 @@ const navStyles = {
 };
 
 const Navbar = () => {
+  const [scrolled, setScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [currentPath, setCurrentPath] = useState("");
   const navRef = useRef(null);
+
+    // 🔹 Handle scroll to add background to navbar
+  useEffect(() => {
+    const handleScrollBg = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    handleScrollBg(); // Set initial state
+    window.addEventListener("scroll", handleScrollBg);
+    return () => window.removeEventListener("scroll", handleScrollBg);
+  }, []);
 
   // 🔹 Track current route for page-based highlighting (e.g. /about, /portfolio)
   useEffect(() => {
@@ -179,7 +195,7 @@ const Navbar = () => {
     <>
       <nav
         ref={navRef}
-        className="fixed top-0 left-0 right-0 z-50 w-full h-[120px] bg-transparent transition-all duration-200"
+        className={`fixed top-0 left-0 right-0 z-50 w-full h-[120px] transition-all duration-200 ${scrolled ? "bg-white shadow-md" : "bg-transparent"}`}
       >
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-[120px]">
